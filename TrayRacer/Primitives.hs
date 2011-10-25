@@ -8,11 +8,16 @@ data Primitive =
   Sphere { center :: Vec3, radius :: Double, material :: Material }
   deriving (Show)
 data Ray = Ray { direction :: Vec3, position :: Vec3 } deriving (Show)
-data Material = ColorMaterial Double Double Double deriving (Show)
 
-materialColor :: Material -> Color
-materialColor (ColorMaterial r g b) = 
-  rgb (truncate (255 * r)) (truncate (255 * g)) (truncate (255 * b))
+data Material
+  = ColorMaterial {
+    red :: Int, green :: Int, blue :: Int }
+  | ReflectiveMaterial {
+    base :: Material, reflectivity :: Double }
+  | NullMaterial
+  deriving (Show)
+
+colorFrom (ColorMaterial r g b) = (rgb r g b)
 
 data Point2D = 
   -- | Describes a point in the image using pixel coordinates
@@ -51,5 +56,9 @@ view loc fov f v =
   Viewer loc (scalarMul scale (crossprod v f)) (scalarMul scale v) f
   where scale = norm f * tan (fov / 2)
 
-data Scene = Scene { geom :: [Primitive] } deriving (Show)
+data Scene = 
+  Scene { 
+    geom :: [Primitive], 
+    background :: Material
+  } deriving (Show)
 

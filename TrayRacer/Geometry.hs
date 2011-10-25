@@ -1,5 +1,3 @@
-module TrayRacer.Geometry where
-
 import Data.Vect.Double
 import TrayRacer.Primitives
 
@@ -13,7 +11,7 @@ intersectAlongRay (Ray dir pos) (Sphere center radius _) =
   quadSolve 
     (normsqr dir) 
     (2 * (dotprod pos dir - dotprod center dir))
-    (normsqr pos + normsqr center - (radius * radius))
+    (normsqr pos + normsqr center - 2 * dotprod pos center - (radius * radius))
 
 firstIntersection :: Ray -> Primitive -> Maybe (Double, Vec3, Primitive)
 firstIntersection (Ray dir pos) prim =
@@ -25,6 +23,11 @@ firstIntersection (Ray dir pos) prim =
 
 pointToRay :: Viewer -> Point2D -> Ray
 pointToRay (Viewer location u v f) (RelPoint2D hu hv) =
-  Ray (p &- location) p
+  Ray (p &- location) location
   where p = location &+ f &+ scalarMul hu u &+ scalarMul hv v
 
+reflectAbout :: Vec3 -> Vec3 -> Vec3
+reflectAbout vec norm = vec &- scalarMul (2 * dotprod norm vec) norm
+
+normal :: Primitive -> Vec3 -> Vec3
+normal (Sphere center _ _) vec = normalize (vec &- center)
