@@ -13,7 +13,7 @@ pixelColor size scene viewer (Point2D ix iy) =
   pixelColor size scene viewer (toRelPoint size (Point2D ix iy))
 pixelColor size scene viewer (RelPoint2D hu hv) =
   colorFrom $ 
-    colorAtRay scene ray where ray = pointToRay viewer (RelPoint2D hu hv)
+    colorAtRay scene ray 0 where ray = pointToRay viewer (RelPoint2D hu hv)
 
 weightColors :: Double -> Material -> Material -> Material
 weightColors w (ColorMaterial r1 g1 b1) (ColorMaterial r2 g2 b2) =
@@ -24,25 +24,26 @@ colorFor :: Scene
             -> Primitive      -- | The shape to determine the color for
             -> Vec3           -- | The incident vector of the ray
             -> Vec3           -- | The location of intersection
+            -> Int            -- | The stack depth
             -> Material       -- | The color at that point
-colorFor scene shape direction location = 
+colorFor scene shape direction location depth = 
   let mat = material shape
   in case mat of
     ColorMaterial _ _ _ -> mat
     ReflectiveMaterial baseColor reflectivity -> 
-      trace (show ray ++ " " ++ show reflectColor) (weightColors reflectivity reflectColor baseColor)
+      weightColors reflectivity reflectColor baseColor
       where ray = Ray (direction `reflectAbout` (normal shape location)) location
-            reflectColor = colorAtRay scene ray
+            reflectColor = colorAtRay scene ray (depth + 1)
 
-colorAtRay :: Scene -> Ray -> Material
-colorAtRay scene ray =
+colorAtRay :: Scene -> Ray -> Int -> Material
+colorAtRay scene ray depth =
   let geom = geomAtRay scene ray
   in 
-    --trace (show ray) $
     if isNothing geom 
       then background scene 
       else (colorFor 
-          scene (snd $ fromJust geom) (direction ray) (fst $ fromJust geom))
+          scene (snd $ fromJust geom) (direction ray) (fst $ fromJust geom)
+          depth)
 
 sortTuples :: (Double, Vec3, Primitive) -> (Double, Vec3, Primitive) -> Ordering
 sortTuples (s1, _, _) (s2, _, _) =

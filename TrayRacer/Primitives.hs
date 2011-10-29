@@ -17,7 +17,9 @@ data Material
   | NullMaterial
   deriving (Show)
 
+colorFrom :: Material -> Color
 colorFrom (ColorMaterial r g b) = (rgb r g b)
+colorFrom (NullMaterial) = (rgb 0 0 0)
 
 data Point2D = 
   -- | Describes a point in the image using pixel coordinates
