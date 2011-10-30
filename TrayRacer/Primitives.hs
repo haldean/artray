@@ -4,38 +4,44 @@ import Graphics.GD
 import Data.Vect.Double
 import Debug.Trace
 
+data Scene = 
+  Scene { 
+    geom :: [Primitive], 
+    background :: ColorTriple,
+    global_ambient :: ColorTriple,
+    lights :: [Light]
+  } deriving (Show)
+
 data Primitive = 
   Sphere { center :: Vec3, radius :: Double, material :: Material }
   deriving (Show)
 data Ray = Ray { direction :: Vec3, position :: Vec3 } deriving (Show)
 
+type ColorTriple = (Double, Double, Double)
+
+data Light
+  = PhongLight {
+    speclight :: ColorTriple,
+    difflight :: ColorTriple,
+    loclight  :: Vec3
+  } deriving (Show)
+
 data Material
   = ColorMaterial {
-    red :: Int, green :: Int, blue :: Int }
+    basecolor :: ColorTriple }
+
   | ReflectiveMaterial {
-    base :: Material, reflectivity :: Double }
+    base :: ColorTriple, reflectivity :: Double }
+
+  | PhongMaterial {
+    specular :: ColorTriple,
+    diffuse :: ColorTriple,
+    ambient :: ColorTriple,
+    phongexp :: Double
+  }
+
   | NullMaterial
   deriving (Show)
-
-colorFrom :: Material -> Color
-colorFrom (ColorMaterial r g b) = (rgb r g b)
-colorFrom (NullMaterial) = (rgb 0 0 0)
-
-data Point2D = 
-  -- | Describes a point in the image using pixel coordinates
-  Point2D Int Int
-  -- | Describes a point in the image using offsets from the center, where each
-  --   field goes from zero to one.
-  | RelPoint2D Double Double
-  deriving (Show)
-
-toRelPoint :: Size -> Point2D -> Point2D
-toRelPoint size (Point2D ix iy) = 
-  RelPoint2D ((x - xc) / xc) ((y - yc) / yc)
-  where xc = (fromIntegral (fst size)) / 2
-        yc = (fromIntegral (snd size)) / 2
-        x  = (fromIntegral ix)
-        y  = (fromIntegral iy)
 
 data Viewer = Viewer {
     -- | The location of the viewer
@@ -48,6 +54,28 @@ data Viewer = Viewer {
     f :: Vec3
   } deriving (Show)
 
+data Point2D = 
+  -- | Describes a point in the image using pixel coordinates
+  Point2D Int Int
+  -- | Describes a point in the image using offsets from the center, where each
+  --   field goes from zero to one.
+  | RelPoint2D Double Double
+  deriving (Show)
+
+color :: Double -> Double -> Double -> ColorTriple
+color r g b = (r, g, b)
+
+colorm :: Double -> Double -> Double -> Material
+colorm r g b = ColorMaterial (r, g, b)
+
+toRelPoint :: Size -> Point2D -> Point2D
+toRelPoint size (Point2D ix iy) = 
+  RelPoint2D ((x - xc) / xc) ((y - yc) / yc)
+  where xc = (fromIntegral (fst size)) / 2
+        yc = (fromIntegral (snd size)) / 2
+        x  = (fromIntegral ix)
+        y  = (fromIntegral iy)
+
 -- |Creates a viewer
 view :: Vec3        -- ^ The location of the viewer
      -> Double      -- ^ The field of view of the viewer, in radians
@@ -57,10 +85,4 @@ view :: Vec3        -- ^ The location of the viewer
 view loc fov f v =
   Viewer loc (scalarMul scale (crossprod v f)) (scalarMul scale v) f
   where scale = norm f * tan (fov / 2)
-
-data Scene = 
-  Scene { 
-    geom :: [Primitive], 
-    background :: Material
-  } deriving (Show)
 

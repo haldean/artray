@@ -13,9 +13,13 @@ applyToImage imFunc im =
 
 scene =
   (Scene
-    [(Sphere (Vec3 8 (-2) 0) 1 (ColorMaterial 0 255 0)),
-     (Sphere (Vec3 8 2 0) 1 (ReflectiveMaterial (ColorMaterial 255 0 0) 0.5))]
-    (ColorMaterial 0 0 0))
+    [--(Sphere (Vec3 8 (-2) 0) 1 (colorm 0 1 0)),
+     --(Sphere (Vec3 8 2 0) 1 (ReflectiveMaterial (color 1 0 0) 0.5))]
+     (Sphere (Vec3 8 0 0) 1 
+      (PhongMaterial (color 1 1 1) (color 1 0 0) (color 1 0 0) 2))]
+    (color 0 0 0)
+    (color 0.3 0.3 0.3)
+    [(PhongLight (color 0.3 0.3 0.3) (color 0.4 0.4 0.4) (Vec3 0 0 0))])
 
 viewer = view (Vec3 0 0 0) (pi / 4) (Vec3 1 0 0) (Vec3 0 0 1)
 
