@@ -53,27 +53,32 @@ colorFor scene shape direction location depth =
       weightedCombine reflectivity reflectColor baseColor
       where ray = Ray (direction `reflectAbout` (normal shape location)) location
             reflectColor = colorAtRay scene ray (depth + 1)
-
+ 
     PhongMaterial spec diff amb exp ->
       sumLight ((combine amb (global_ambient scene)) : 
-            (phongLight mat ray norm `map` lights scene))
+            (phongLight scene mat ray norm `map` lights scene))
       where ray  = Ray direction location
             norm = normal shape location
 
-phongLight :: Material -> Ray -> Vec3 -> Light -> ColorTriple
-phongLight mat ray norm light =
-  let md    = diffuse mat
-      ld    = difflight light
-      ms    = specular mat
-      ls    = speclight light
-      alpha = phongexp mat
-      lv    = direction ray
-      ll    = loclight light &- position ray
-      lr    = ll `reflectAbout` norm
-      sd    = max 0 (dotprod ll norm)
-      ss'   = (dotprod lr lv) ^ alpha
-      ss    = max 0 ss'
-  in sumLight [md `combine` ld `scale` sd, ms `combine` ls `scale` ss]
+tracei x = trace (show x) x
+
+occluded :: Scene -> Vec3 -> Vec3 -> Bool
+occluded scene x1 x2 =
+  not . null . filter (\(s, loc, p) -> 0 < s && s < 1) $
+              intersectWithScene scene (Ray (x2 &- x1) x1)
+
+phongLight :: Scene -> Material -> Ray -> Vec3 -> Light -> ColorTriple
+phongLight scene mat ray surfacenorm light =
+  if occluded scene (position ray) (loclight light) then (0, 0, 0)
+  else let kd           = diffuse mat `combine` difflight light
+           ks           = specular mat `combine` speclight light
+           alpha        = phongexp mat
+           incident     = normalize $ direction ray
+           lightdir     = normalize $ loclight light &- position ray
+           lightreflect = lightdir `reflectAbout` surfacenorm
+           sd           = max 0 (dotprod lightdir surfacenorm)
+           ss           = (max 0 (dotprod lightreflect incident)) ^ alpha
+       in sumLight [kd `scale` sd, ks `scale` ss]
 
 colorAtRay :: Scene -> Ray -> Int -> ColorTriple
 colorAtRay scene ray depth =

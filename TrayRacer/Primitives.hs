@@ -12,8 +12,11 @@ data Scene =
     lights :: [Light]
   } deriving (Show)
 
-data Primitive = 
-  Sphere { center :: Vec3, radius :: Double, material :: Material }
+data Primitive 
+  = Sphere { 
+    center :: Vec3, radius :: Double, material :: Material }
+  | Plane  { 
+    pnorm :: Vec3, point :: Vec3, material :: Material }
   deriving (Show)
 data Ray = Ray { direction :: Vec3, position :: Vec3 } deriving (Show)
 
@@ -37,7 +40,7 @@ data Material
     specular :: ColorTriple,
     diffuse :: ColorTriple,
     ambient :: ColorTriple,
-    phongexp :: Double
+    phongexp :: Int
   }
 
   | NullMaterial
