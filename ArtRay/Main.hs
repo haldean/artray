@@ -2,23 +2,29 @@ import Data.Vect.Double
 import ArtRay.Primitives
 import ArtRay.Render
 import System (getArgs)
+import System.IO
 
-scene =
-  (Scene
-    [--(Sphere (Vec3 8 (-2) 0) 1 (colorm 0 1 0)),
-     --(Sphere (Vec3 8 2 0) 1 (ReflectiveMaterial (color 1 0 0) 0.5))]
-     (Sphere (Vec3 14 (-4) 0) 3 
-      (PhongMaterial (color 1 1 1) (color 0.7 0 0) (color 1 0 0) 4)),
+readScene :: FilePath -> IO Scene
+readScene path =
+  do
+    infile <- openFile path ReadMode
+    contents <- hGetContents infile
+    return ((read contents)::Scene)
+
+scene = (Scene
+    [(Sphere (Vec3 14 (-4) 0) 3 
+       (PhongMaterial (1, 1, 1) (0.7, 0, 0) (1, 0, 0) 4)),
      (Sphere (Vec3 10 0 0) 1 
-      (PhongMaterial (color 1 1 1) (color 0 0.7 0) (color 0 1 0) 4)),
+       (PhongMaterial (1, 1, 1) (0, 0.7, 0) (0, 1, 0) 4)),
      (Plane (Vec3 (-1) 0 0) (Vec3 13 0 0) 
-      (PhongMaterial (color 0 0 0) (color 0 0 0.7) (color 0 0 1) 4))]
-    (color 0 0 0)
-    (color 0.4 0.4 0.4)
-    [(PhongLight (color 1 1 1) (color 1 1 1) (Vec3 6 4 0))])
-
-viewer = view (Vec3 0 0 0) (pi / 4) (Vec3 1 (-0.2) 0) (Vec3 0 0 1)
+       (PhongMaterial (0, 0, 0) (0, 0, 0.7) (0, 0, 1) 4))]
+    (0, 0, 0)
+    (0.4, 0.4, 0.4)
+    [(PhongLight (1, 1, 1) (1, 1, 1) (Vec3 6 4 0))]
+    (Viewer (Vec3 0 0 0) (Vec3 0 0.422 0) (Vec3 0 0 0.422) (Vec3 1 (-0.2) 0)))
 
 main = getArgs >>= \args -> 
-  if null args then putStrLn "Must supply output file name"
-  else render scene viewer 400 (head args)
+  if length args /= 2 then putStrLn "Must supply input and output file names"
+  else do
+    scene <- readScene (head args)
+    render scene 400 (args !! 1)

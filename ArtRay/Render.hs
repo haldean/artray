@@ -12,10 +12,10 @@ applyToImage imFunc im =
     size <- imageSize im
     sequence_ [setPixel (i,j) (imFunc size (i,j)) im | i <- [0..(fst size)], j <- [0..(snd size)]]
 
-render :: Scene -> Viewer -> Int -> String -> IO()
-render scene viewer size outfile =
+render :: Scene -> Int -> String -> IO()
+render scene size outfile =
   do
     im <- newImage (size, size)
-    applyToImage (rayTraceImage scene viewer) im
+    applyToImage (rayTraceImage scene) im
     savePngFile outfile im
 

@@ -9,15 +9,19 @@ data Scene =
     geom :: [Primitive], 
     background :: ColorTriple,
     global_ambient :: ColorTriple,
-    lights :: [Light]
-  } deriving (Show)
+    lights :: [Light],
+    viewer :: Viewer
+  } deriving (Show, Read)
 
 data Primitive 
   = Sphere { 
     center :: Vec3, radius :: Double, material :: Material }
   | Plane  { 
     pnorm :: Vec3, point :: Vec3, material :: Material }
-  deriving (Show)
+  | RectPrism {
+    corner :: Vec3, x :: Vec3, y :: Vec3, z :: Vec3, material :: Material }
+  deriving (Show, Read, Eq)
+
 data Ray = Ray { direction :: Vec3, position :: Vec3 } deriving (Show)
 
 type ColorTriple = (Double, Double, Double)
@@ -27,14 +31,23 @@ data Light
     speclight :: ColorTriple,
     difflight :: ColorTriple,
     loclight  :: Vec3
-  } deriving (Show)
+  } deriving (Show, Read)
+
+data CombinationModel
+  = WeightSum { weight::Double }
+  | FlatSum
+  | Multiply
+  deriving (Show, Eq, Read)
 
 data Material
   = ColorMaterial {
-    basecolor :: ColorTriple }
+    basecolor :: ColorTriple
+  }
 
   | ReflectiveMaterial {
-    base :: ColorTriple, reflectivity :: Double }
+    base :: Material,
+    reflectivity :: Double
+  }
 
   | PhongMaterial {
     specular :: ColorTriple,
@@ -43,8 +56,18 @@ data Material
     phongexp :: Int
   }
 
+  | TransparentMaterial {
+    base :: Material,
+    cmodel :: CombinationModel,
+    refindex :: Double
+  }
+
   | NullMaterial
-  deriving (Show)
+  deriving (Show, Read, Eq)
+
+transmittance :: Material -> Double
+transmittance (TransparentMaterial _ (WeightSum op) _) = op
+transmittance _ = 0
 
 data Viewer = Viewer {
     -- | The location of the viewer
@@ -55,7 +78,7 @@ data Viewer = Viewer {
     v :: Vec3,
     -- | A vector pointing from the viewer to the center of the image plane
     f :: Vec3
-  } deriving (Show)
+  } deriving (Show, Read)
 
 data Point2D = 
   -- | Describes a point in the image using pixel coordinates
@@ -89,3 +112,5 @@ view loc fov f v =
   Viewer loc (scalarMul scale (crossprod v f)) (scalarMul scale v) f
   where scale = norm f * tan (fov / 2)
 
+instance Eq Vec3 where
+  (Vec3 x1 y1 z1) == (Vec3 x2 y2 z2) = (x1 == x2) && (y1 == y2) && (z1 == z2)
