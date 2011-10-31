@@ -1,4 +1,4 @@
-module TrayRacer.Primitives where
+module ArtRay.Primitives where
 
 import Graphics.GD
 import Data.Vect.Double

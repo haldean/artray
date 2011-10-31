@@ -1,12 +1,12 @@
-module TrayRacer.RayTrace where
+module ArtRay.RayTrace where
 
 import Data.Maybe
 import Data.List
 import Data.Vect.Double
 import Debug.Trace
 import Graphics.GD
-import TrayRacer.Geometry
-import TrayRacer.Primitives
+import ArtRay.Geometry
+import ArtRay.Primitives
 
 pixelColor :: Size -> Scene -> Viewer -> Point2D -> Color
 pixelColor size scene viewer (Point2D ix iy) =

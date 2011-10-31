@@ -1,6 +1,6 @@
 import Data.Vect.Double
-import TrayRacer.Primitives
-import TrayRacer.Render
+import ArtRay.Primitives
+import ArtRay.Render
 import System (getArgs)
 
 scene =

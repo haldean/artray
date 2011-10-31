@@ -1,10 +1,10 @@
-module TrayRacer.Render where
+module ArtRay.Render where
 
 import Data.Vect.Double
-import TrayRacer.Primitives
-import TrayRacer.RayTrace
+import ArtRay.Primitives
+import ArtRay.RayTrace
 import Graphics.GD
-import TrayRacer.Geometry
+import ArtRay.Geometry
 
 applyToImage :: (Size -> Point -> Color) -> Image -> IO()
 applyToImage imFunc im =

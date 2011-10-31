@@ -1,7 +1,7 @@
-module TrayRacer.Geometry where
+module ArtRay.Geometry where
 
 import Data.Vect.Double
-import TrayRacer.Primitives
+import ArtRay.Primitives
 
 quadSolve :: Double -> Double -> Double -> (Double, Double)
 quadSolve a b c =
