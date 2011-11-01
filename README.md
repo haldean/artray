@@ -15,8 +15,10 @@ their way -- until they arrive, the samples in scenes/ give some examples as to
 how to specify a scene, and all of the primitives available to you can be seen
 in ArtRay/Primitives.hs.
 
-Current Features
+Features
 ----------------
+Current Features
+
 * Half-plane primitive
 * Phong reflectance
 * Shadows, including partial occlusion by transparent materials
@@ -25,6 +27,7 @@ Current Features
 * Basic refraction model
 
 Planned Features:
+
 * Triangle meshes
 * Texturing
 * Anti-aliasing
