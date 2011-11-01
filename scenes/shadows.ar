@@ -1,0 +1,54 @@
+Scene {
+  geom = [
+    Sphere {
+      center = Vec3 14.0 (-4.0) 0.0,
+      radius = 3.0,
+      material = PhongMaterial {
+        specular = (1.0,1.0,1.0),
+        diffuse = (0.7,0.0,0.0),
+        ambient = (1.0,0.0,0.0),
+        phongexp = 4
+      }
+    },
+
+    Sphere {
+      center = Vec3 10.0 0.0 0.0,
+      radius = 1.0,
+      material = PhongMaterial {
+        specular = (1.0,1.0,1.0),
+        diffuse = (0.0,0.7,0.0),
+        ambient = (0.0,1.0,0.0),
+        phongexp = 4
+      }
+    },
+    
+    Plane {
+      pnorm = Vec3 (-1.0) 0.0 0.0,
+      point = Vec3 13.0 0.0 0.0,
+      material = PhongMaterial {
+        specular = (0.0,0.0,0.0),
+        diffuse = (0.0,0.0,0.7),
+        ambient = (0.0,0.0,1.0),
+        phongexp = 4
+      }
+    }
+  ],
+
+  background = (0.0,0.0,0.0),
+  global_ambient = (0.4,0.4,0.4),
+  lights = [
+    PhongLight {
+      speclight = (1.0,1.0,1.0),
+      difflight = (1.0,1.0,1.0),
+      loclight = Vec3 6.0 4.0 0.0
+    }
+  ],
+   
+  viewer = Viewer {
+    location = Vec3 0.0 0.0 0.0,
+    u = Vec3 0.0 0.422 0.0,
+    v = Vec3 0.0 0.0 0.422,
+    f = Vec3 1.0 (-0.2) 0.0
+  }
+}
+

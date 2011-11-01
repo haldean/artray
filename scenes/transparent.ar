@@ -1,0 +1,102 @@
+Scene {
+  geom = [
+    Plane {
+      pnorm = Vec3 (-1) 0 0,
+      point = Vec3 11 0 0,
+      material = PhongMaterial {
+        specular = (0.0,0.0,0.0),
+        diffuse = (0.4,0.4,0.7),
+        ambient = (0.0,0.0,0.2),
+        phongexp = 4
+      }
+    },
+
+    Plane {
+      pnorm = Vec3 1 0 0,
+      point = Vec3 -1 0 0,
+      material = PhongMaterial {
+        specular = (0.0,0.0,0.0),
+        diffuse = (0.4,0.4,0.7),
+        ambient = (0.0,0.0,0.2),
+        phongexp = 4
+      }
+    },
+
+    Plane {
+      pnorm = Vec3 0 0 (-1),
+      point = Vec3 0 0 2,
+      material = PhongMaterial {
+        specular = (0.0,0.0,0.0),
+        diffuse = (0.7,0.4,0.4),
+        ambient = (0.2,0.0,0.0),
+        phongexp = 4
+      }
+    },
+
+    Plane {
+      pnorm = Vec3 0 0 1,
+      point = Vec3 0 0 (-6),
+      material = PhongMaterial {
+        specular = (0.0,0.0,0.0),
+        diffuse = (0.7,0.4,0.4),
+        ambient = (0.2,0.0,0.0),
+        phongexp = 4
+      }
+    },
+
+    Plane {
+      pnorm = Vec3 0 (-1) 0,
+      point = Vec3 0 5 0,
+      material = PhongMaterial {
+        specular = (0.0,0.0,0.0),
+        diffuse = (0.4, 0.7, 0.4),
+        ambient = (0, 0.2, 0),
+        phongexp = 4
+      }
+    },
+
+    Plane {
+      pnorm = Vec3 0 1 0,
+      point = Vec3 0 (-5) 0,
+      material = PhongMaterial {
+        specular = (0.0,0.0,0.0),
+        diffuse = (0.4, 0.7, 0.4),
+        ambient = (0, 0.2, 0),
+        phongexp = 4
+      }
+    },
+
+    Sphere {
+      center = Vec3 5 -2 0,
+      radius = 1.0,
+      material = TransparentMaterial {
+        base = ReflectiveMaterial {
+          base = NullMaterial,
+          reflectivity = 1
+        },
+        cmodel = WeightSum {
+          weight = 0.9
+        },
+        refindex = 1.9
+      }
+    }
+  ],
+
+  background = (0.0,0.0,0.0),
+  global_ambient = (0.4,0.4,0.4),
+  lights = [
+    PhongLight {
+      speclight = (1.0,1.0,1.0),
+      difflight = (1.0,1.0,1.0),
+      loclight = Vec3 5 2 (-2)
+    }
+  ],
+   
+  viewer = Viewer {
+    location = Vec3 0.0 0.0 0.0,
+    u = Vec3 0 0.9 0,
+    v = Vec3 0 0 0.9,
+    f = Vec3 1 0 0
+  }
+}
+
