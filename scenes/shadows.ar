@@ -35,7 +35,7 @@ Scene {
   ],
 
   background = (0.0,0.0,0.0),
-  global_ambient = (0.4,0.4,0.4),
+  globalAmbient = (0.4,0.4,0.4),
   lights = [
     PhongLight {
       speclight = (1.0,1.0,1.0),

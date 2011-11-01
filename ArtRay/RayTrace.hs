@@ -35,8 +35,8 @@ colorFor scene shape mat direction location depth =
             baseColor = colorFor scene shape basemat direction location depth 
  
     PhongMaterial spec diff amb exp ->
-      sumLight (combine amb (global_ambient scene)) : 
-            (phongLight scene shape mat ray norm `map` lights scene)
+      sumLight ((combine amb (globalAmbient scene)) : 
+            (phongLight scene shape mat ray norm `map` lights scene))
       where ray  = Ray direction location
             norm = normal shape location
 

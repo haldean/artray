@@ -18,6 +18,7 @@ in ArtRay/Primitives.hs.
 Current Features:
 - Half-plane primitive
 - Phong reflectance
+- Shadows, including partial occlusion by transparent materials
 - Point light sources
 - Basic reflection model
 - Basic refraction model
