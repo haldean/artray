@@ -16,8 +16,8 @@ firstIntersection (Ray dir pos) prim@(Sphere center radius _) =
                   (normsqr pos + normsqr center - 
                    2 * dotprod pos center - (radius * radius))
   in if not (isNaN s1) && (s1 < s2) && (s1 > 0)
-    then Just (s1, (pos &+ scalarMul s1 dir), prim)
-    else if not (isNaN s2) && (s2 > 0) then Just (s2, (pos &+ scalarMul s2 dir), prim)
+    then Just (s1, pos &+ scalarMul s1 dir, prim)
+    else if not (isNaN s2) && (s2 > 0) then Just (s2, pos &+ scalarMul s2 dir, prim)
     else Nothing
 
 firstIntersection (Ray dir pos) p@(Plane n x _) =
