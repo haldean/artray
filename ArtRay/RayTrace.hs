@@ -8,12 +8,11 @@ import Graphics.GD
 import ArtRay.Geometry
 import ArtRay.Primitives
 
-pixelColor :: Size -> Scene -> Viewer -> Point2D -> Color
+pixelColor :: Size -> Scene -> Viewer -> Point2D -> ColorTriple
 pixelColor size scene viewer (Point2D ix iy) =
   pixelColor size scene viewer (toRelPoint size (Point2D ix iy))
 pixelColor size scene viewer (RelPoint2D hu hv) =
-  colorFrom $ 
-    colorAtRay scene ray 0 where ray = pointToRay viewer (RelPoint2D hu hv)
+  colorAtRay scene ray 0 where ray = pointToRay viewer (RelPoint2D hu hv)
 
 colorFor :: Scene
             -> Primitive      -- | The shape to determine the color for
@@ -101,6 +100,3 @@ intersectWithScene :: Scene -> Ray -> [Primitive] -> [(Double, Vec3, Primitive)]
 intersectWithScene scene ray exclude = 
   mapMaybe (firstIntersection ray) (filter (`notElem` exclude) (geom scene))
 
-rayTraceImage :: Scene -> Size -> Point -> Color
-rayTraceImage scene size (x, y) =
-  pixelColor size scene (viewer scene) (Point2D x y)

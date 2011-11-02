@@ -6,9 +6,10 @@ import Debug.Trace
 
 data Scene = 
   Scene { 
-    geom :: [Primitive], 
     background :: ColorTriple,
     globalAmbient :: ColorTriple,
+    subpixels :: Int,
+    geom :: [Primitive], 
     lights :: [Light],
     viewer :: Viewer
   } deriving (Show, Read)
@@ -81,8 +82,9 @@ data Viewer = Viewer {
   } deriving (Show, Read)
 
 data Point2D = 
-  -- | Describes a point in the image using pixel coordinates
-  Point2D Int Int
+  -- | Describes a point in the image using pixel coordinates, allowing for
+  -- | fractional pixels for subpixel sampling.
+  Point2D Double Double
   -- | Describes a point in the image using offsets from the center, where each
   --   field goes from zero to one.
   | RelPoint2D Double Double
@@ -95,12 +97,10 @@ colorm :: Double -> Double -> Double -> Material
 colorm r g b = ColorMaterial (r, g, b)
 
 toRelPoint :: Size -> Point2D -> Point2D
-toRelPoint size (Point2D ix iy) = 
+toRelPoint size (Point2D x y) = 
   RelPoint2D ((x - xc) / xc) ((y - yc) / yc)
   where xc = fromIntegral (fst size) / 2
         yc = fromIntegral (snd size) / 2
-        x  = fromIntegral ix
-        y  = fromIntegral iy
 
 -- |Creates a viewer
 view :: Vec3        -- ^ The location of the viewer
@@ -138,4 +138,9 @@ sumLight = foldl1 sumColor
 
 sumColor :: ColorTriple -> ColorTriple -> ColorTriple
 sumColor (r1, g1, b1) (r2, g2, b2) = normalizeColor (r1 + r2, g1 + g2, b1 + b2)
+sumColor' (r1, g1, b1) (r2, g2, b2) = (r1 + r2, g1 + g2, b1 + b2)
 
+meanColor :: [ColorTriple] -> ColorTriple
+meanColor colors = div $ foldl1 sumColor' colors
+  where l = fromIntegral $ length colors
+        div (r, g, b) = (r / l, g / l, b / l)

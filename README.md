@@ -7,7 +7,7 @@ Running ArtRay
 Compilation is handled by the build.sh script. After running build.sh,
 you can execute ArtRay as follows:
 
-    ./artray [input scene] [output image]
+    ./ar [input scene] [output image]
 
 Output is always written in PNG format. Input is in ArtRay format, which is
 essentially a bunch of nested data constructors. Better docs for this are on

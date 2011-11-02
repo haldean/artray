@@ -1,4 +1,4 @@
 if [ ! -d "build" ]; then
   mkdir build
 fi
-ghc ArtRay/Main.hs -o artray -odir build/ -hidir build/ -O
+ghc ArtRay/Main.hs -o ar -odir build/ -hidir build/ -O
