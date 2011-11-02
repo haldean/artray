@@ -1,4 +1,9 @@
 Scene {
+  background = (0.0,0.0,0.0),
+  options = [
+    GlobalAmbient (0.4, 0.4, 0.4)
+  ],
+
   geom = [
     Sphere {
       center = Vec3 14.0 (-4.0) 0.0,
@@ -34,8 +39,6 @@ Scene {
     }
   ],
 
-  background = (0.0,0.0,0.0),
-  globalAmbient = (0.4,0.4,0.4),
   lights = [
     PhongLight {
       speclight = (1.0,1.0,1.0),
@@ -51,4 +54,3 @@ Scene {
     f = Vec3 1.0 (-0.2) 0.0
   }
 }
-

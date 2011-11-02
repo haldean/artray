@@ -1,18 +1,23 @@
 module ArtRay.Primitives where
 
-import Graphics.GD
+import Data.Maybe
 import Data.Vect.Double
 import Debug.Trace
+import Graphics.GD
 
 data Scene = 
   Scene { 
     background :: ColorTriple,
-    globalAmbient :: ColorTriple,
-    subpixels :: Int,
+    options :: [Option],
     geom :: [Primitive], 
     lights :: [Light],
     viewer :: Viewer
   } deriving (Show, Read)
+
+data Option
+  = Antialiased Double
+  | GlobalAmbient ColorTriple
+  deriving (Show, Read)
 
 data Primitive 
   = Sphere { 
@@ -66,10 +71,6 @@ data Material
   | NullMaterial
   deriving (Show, Read, Eq)
 
-transmittance :: Material -> Double
-transmittance (TransparentMaterial _ (WeightSum op) _) = op
-transmittance _ = 0
-
 data Viewer = Viewer {
     -- | The location of the viewer
     location :: Vec3,
@@ -89,6 +90,30 @@ data Point2D =
   --   field goes from zero to one.
   | RelPoint2D Double Double
   deriving (Show)
+
+
+transmittance :: Material -> Double
+transmittance (TransparentMaterial _ (WeightSum op) _) = op
+transmittance _ = 0
+
+glambient :: Scene -> ColorTriple
+glambient scene =
+  case mapMaybe
+        (\opt -> case opt of GlobalAmbient t -> Just t; otherwise -> Nothing)
+        (options scene) of
+    amb:_ -> amb
+    otherwise -> (0, 0, 0)
+
+subpixels :: Scene -> Maybe Double
+subpixels scene =
+  case mapMaybe
+        (\opt -> case opt of Antialiased t -> Just t; otherwise -> Nothing)
+        (options scene) of
+    subp:_ -> Just subp
+    otherwise -> Nothing
+
+p2d :: Int -> Int -> Point2D
+p2d x y = Point2D (fromIntegral x) (fromIntegral y)
 
 color :: Double -> Double -> Double -> ColorTriple
 color r g b = (r, g, b)

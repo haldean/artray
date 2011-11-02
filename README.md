@@ -25,9 +25,11 @@ Current Features
 * Point light sources
 * Basic reflection model
 * Basic refraction model
+* Anti-aliasing (new!)
 
 Planned Features:
 
 * Triangle meshes
 * Texturing
-* Anti-aliasing
+* B-Spline surfaces
+* Parallel rendering

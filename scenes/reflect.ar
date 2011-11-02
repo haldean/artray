@@ -1,4 +1,10 @@
 Scene {
+  background = (0.0, 0.0, 0.0),
+  options = [
+    GlobalAmbient (0.4, 0.4, 0.4),
+    Antialiased 4
+  ],
+
   geom = [
     Sphere {
       center = Vec3 14.0 (-4.0) 0.0,
@@ -37,16 +43,13 @@ Scene {
     }
   ],
 
-  subpixels = 4,
-  background = (0.0, 0.0, 0.0),
-  globalAmbient = (0.4, 0.4, 0.4),
-
   lights = [
     PhongLight {
-    speclight = (1.0, 1.0, 1.0),
-    difflight = (1.0, 1.0, 1.0),
-    loclight = Vec3 6.0 4.0 0.0 
-  }],
+      speclight = (1.0, 1.0, 1.0),
+      difflight = (1.0, 1.0, 1.0),
+      loclight = Vec3 6.0 4.0 0.0 
+    }
+  ],
 
   viewer = Viewer {
     location = Vec3 0.0 0.0 0.0,
