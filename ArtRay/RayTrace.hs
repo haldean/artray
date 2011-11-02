@@ -14,13 +14,20 @@ pixelColor size scene viewer (Point2D ix iy) =
 pixelColor size scene viewer (RelPoint2D hu hv) =
   colorAtRay scene ray 0 where ray = pointToRay viewer (RelPoint2D hu hv)
 
-colorFor :: Scene
-            -> Primitive      -- | The shape to determine the color for
-            -> Material
-            -> Vec3           -- | The incident vector of the ray
-            -> Vec3           -- | The location of intersection
-            -> Int            -- | The stack depth
-            -> ColorTriple    -- | The color at that point
+colorFor :: Scene             
+            -- ^ The scene we're operating within
+            -> Primitive      
+            -- ^ The shape to determine the color for
+            -> Material       
+            -- ^ The material to examine (not necessarily the result of (material shape)
+            -> Vec3           
+            -- ^ The incident vector of the ray
+            -> Vec3           
+            -- ^ The location of intersection
+            -> Int            
+            -- ^ The stack depth
+            -> ColorTriple    
+            -- ^ The color at that point
 colorFor scene shape mat direction location depth = 
   case mat of
     NullMaterial -> (0, 0, 0)
