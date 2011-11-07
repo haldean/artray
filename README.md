@@ -33,3 +33,4 @@ Planned Features:
 * Texturing
 * B-Spline surfaces
 * Parallel rendering
+* Reflected light sources
