@@ -26,6 +26,7 @@ Current Features
 * Basic reflection model
 * Basic refraction model
 * Anti-aliasing (new!)
+* Depth of field
 
 Planned Features:
 
@@ -34,3 +35,4 @@ Planned Features:
 * B-Spline surfaces
 * Parallel rendering
 * Reflected light sources
+* Metaballs

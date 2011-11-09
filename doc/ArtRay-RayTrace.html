@@ -1,11 +1,457 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>ArtRay.RayTrace</title><link href="ocean.css" rel="stylesheet" type="text/css" title="Ocean" /><script src="haddock-util.js" type="text/javascript"></script><script type="text/javascript">//<![CDATA[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+><head
+  ><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"
+     /><title
+    >ArtRay.RayTrace</title
+    ><link href="ocean.css" rel="stylesheet" type="text/css" title="Ocean"
+     /><script src="haddock-util.js" type="text/javascript"
+    ></script
+    ><script type="text/javascript"
+    >//<![CDATA[
 window.onload = function () {pageLoad();setSynopsis("mini_ArtRay-RayTrace.html");};
 //]]>
-</script></head><body><div id="package-header"><ul class="links" id="page-menu"><li><a href="index.html">Contents</a></li><li><a href="doc-index.html">Index</a></li></ul><p class="caption">ArtRay: A Haskell Raytracer</p></div><div id="content"><div id="module-header"><p class="caption">ArtRay.RayTrace</p></div><div id="interface"><h1>Documentation</h1><div class="top"><p class="src"><a name="v:pixelColor" class="def">pixelColor</a> :: Size -&gt; <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; <a href="ArtRay-Primitives.html#t:Viewer">Viewer</a> -&gt; <a href="ArtRay-Primitives.html#t:Point2D">Point2D</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></p></div><div class="top"><p class="src"><a name="v:colorFor" class="def">colorFor</a></p><div class="subs arguments"><p class="caption">Arguments</p><table><tr><td class="src">:: <a href="ArtRay-Primitives.html#t:Scene">Scene</a></td><td class="doc"><p>The scene we're operating within
-</p></td></tr><tr><td class="src">-&gt; <a href="ArtRay-Primitives.html#t:Primitive">Primitive</a></td><td class="doc"><p>The shape to determine the color for
-</p></td></tr><tr><td class="src">-&gt; <a href="ArtRay-Primitives.html#t:Material">Material</a></td><td class="doc"><p>The material to examine (not necessarily the result of (material shape)
-</p></td></tr><tr><td class="src">-&gt; Vec3</td><td class="doc"><p>The incident vector of the ray
-</p></td></tr><tr><td class="src">-&gt; Vec3</td><td class="doc"><p>The location of intersection
-</p></td></tr><tr><td class="src">-&gt; Int</td><td class="doc"><p>The stack depth
-</p></td></tr><tr><td class="src">-&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></td><td class="doc"><p>The color at that point
-</p></td></tr></table></div></div><div class="top"><p class="src"><a name="v:occluded" class="def">occluded</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; <a href="ArtRay-Primitives.html#t:Primitive">Primitive</a> -&gt; Vec3 -&gt; Vec3 -&gt; Double</p></div><div class="top"><p class="src"><a name="v:phongLight" class="def">phongLight</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; <a href="ArtRay-Primitives.html#t:Primitive">Primitive</a> -&gt; <a href="ArtRay-Primitives.html#t:Material">Material</a> -&gt; <a href="ArtRay-Primitives.html#t:Ray">Ray</a> -&gt; Vec3 -&gt; <a href="ArtRay-Primitives.html#t:Light">Light</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></p></div><div class="top"><p class="src"><a name="v:colorAtRay" class="def">colorAtRay</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Int -&gt; <a href="ArtRay-Primitives.html#t:Ray">Ray</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></p></div><div class="top"><p class="src"><a name="v:colorAtRay-39-" class="def">colorAtRay'</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Int -&gt; <a href="ArtRay-Primitives.html#t:Ray">Ray</a> -&gt; [<a href="ArtRay-Primitives.html#t:Primitive">Primitive</a>] -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></p></div><div class="top"><p class="src"><a name="v:sortTuples" class="def">sortTuples</a> :: (Double, Vec3, <a href="ArtRay-Primitives.html#t:Primitive">Primitive</a>) -&gt; (Double, Vec3, <a href="ArtRay-Primitives.html#t:Primitive">Primitive</a>) -&gt; Ordering</p></div><div class="top"><p class="src"><a name="v:geomAtRay" class="def">geomAtRay</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; <a href="ArtRay-Primitives.html#t:Ray">Ray</a> -&gt; [<a href="ArtRay-Primitives.html#t:Primitive">Primitive</a>] -&gt; Maybe (Vec3, <a href="ArtRay-Primitives.html#t:Primitive">Primitive</a>)</p></div><div class="top"><p class="src"><a name="v:intersectWithScene" class="def">intersectWithScene</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; <a href="ArtRay-Primitives.html#t:Ray">Ray</a> -&gt; [<a href="ArtRay-Primitives.html#t:Primitive">Primitive</a>] -&gt; [(Double, Vec3, <a href="ArtRay-Primitives.html#t:Primitive">Primitive</a>)]</p></div></div></div><div id="footer"><p>Produced by <a href="http://www.haskell.org/haddock/">Haddock</a> version 2.9.2</p></div></body></html>
+</script
+    ></head
+  ><body
+  ><div id="package-header"
+    ><ul class="links" id="page-menu"
+      ><li
+	><a href="index.html"
+	  >Contents</a
+	  ></li
+	><li
+	><a href="doc-index.html"
+	  >Index</a
+	  ></li
+	></ul
+      ><p class="caption"
+      >ArtRay: A Haskell Ray Tracer</p
+      ></div
+    ><div id="content"
+    ><div id="module-header"
+      ><p class="caption"
+	>ArtRay.RayTrace</p
+	></div
+      ><div id="synopsis"
+      ><p id="control.syn" class="caption expander" onclick="toggleSection('syn')"
+	>Synopsis</p
+	><ul id="section.syn" class="hide" onclick="toggleSection('syn')"
+	><li class="src short"
+	  ><a href="#v:pixelColor"
+	    >pixelColor</a
+	    > :: Size -&gt; <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Viewer"
+	    >Viewer</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Point2D"
+	    >Point2D</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:colorFor"
+	    >colorFor</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Material"
+	    >Material</a
+	    > -&gt; Vec3 -&gt; Vec3 -&gt; Int -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:occluded"
+	    >occluded</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    > -&gt; Vec3 -&gt; Vec3 -&gt; Double</li
+	  ><li class="src short"
+	  ><a href="#v:phongLight"
+	    >phongLight</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Material"
+	    >Material</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Ray"
+	    >Ray</a
+	    > -&gt; Vec3 -&gt; <a href="ArtRay-Primitives.html#t:Light"
+	    >Light</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:colorAtRay"
+	    >colorAtRay</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Int -&gt; <a href="ArtRay-Primitives.html#t:Ray"
+	    >Ray</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:colorAtRay-39-"
+	    >colorAtRay'</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Int -&gt; <a href="ArtRay-Primitives.html#t:Ray"
+	    >Ray</a
+	    > -&gt; [<a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >] -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:orderTuples"
+	    >orderTuples</a
+	    > :: (Double, Vec3, <a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >) -&gt; (Double, Vec3, <a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >) -&gt; Ordering</li
+	  ><li class="src short"
+	  ><a href="#v:geomAtRay"
+	    >geomAtRay</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Ray"
+	    >Ray</a
+	    > -&gt; [<a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >] -&gt; Maybe (Vec3, <a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >)</li
+	  ><li class="src short"
+	  ><a href="#v:intersectWithScene"
+	    >intersectWithScene</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Ray"
+	    >Ray</a
+	    > -&gt; [<a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >] -&gt; [(Double, Vec3, <a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >)]</li
+	  ></ul
+	></div
+      ><div id="interface"
+      ><h1
+	>Documentation</h1
+	><div class="top"
+	><p class="src"
+	  ><a name="v:pixelColor" class="def"
+	    >pixelColor</a
+	    > :: Size -&gt; <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Viewer"
+	    >Viewer</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Point2D"
+	    >Point2D</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Get the color for a pixel in the scene
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:colorFor" class="def"
+	    >colorFor</a
+	    ></p
+	  ><div class="subs arguments"
+	  ><p class="caption"
+	    >Arguments</p
+	    ><table
+	    ><tr
+	      ><td class="src"
+		>:: <a href="ArtRay-Primitives.html#t:Scene"
+		  >Scene</a
+		  ></td
+		><td class="doc"
+		><p
+		  >The scene we're operating within
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; <a href="ArtRay-Primitives.html#t:Primitive"
+		  >Primitive</a
+		  ></td
+		><td class="doc"
+		><p
+		  >The shape to determine the color for
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; <a href="ArtRay-Primitives.html#t:Material"
+		  >Material</a
+		  ></td
+		><td class="doc"
+		><p
+		  >The material to examine (not necessarily the result of (material shape)
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; Vec3</td
+		><td class="doc"
+		><p
+		  >The incident vector of the ray
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; Vec3</td
+		><td class="doc"
+		><p
+		  >The location of intersection
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; Int</td
+		><td class="doc"
+		><p
+		  >The stack depth
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+		  >ColorTriple</a
+		  ></td
+		><td class="doc"
+		><p
+		  >The color at that point
+</p
+		  ></td
+		></tr
+	      ></table
+	    ></div
+	  ><div class="doc"
+	  ><p
+	    >Find the color at a pixel defined by the point
+</p
+	    ><p
+	    >Finds the color at a point on a primitive, using the provided material.
+ Both the primitive and the material must be supplied, as some primitives may
+ have multiple materials that need to be calculated. The stack depth of ray
+ tracing is tracked but currently is unused and unlimited.
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:occluded" class="def"
+	    >occluded</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    > -&gt; Vec3 -&gt; Vec3 -&gt; Double</p
+	  ><div class="doc"
+	  ><p
+	    >Returns how much occlusion occurs between two points x1 and x2. The shape
+ at x1 must be provided to ensure that it is excluded when calculating
+ intersections. The return value ranges from 0 to 1, where 0 is fully occluded
+ and 1 is not occluded at all. Intermediate values are possible because of
+ semi-transparent material that may be between x1 and x2.
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:phongLight" class="def"
+	    >phongLight</a
+	    ></p
+	  ><div class="subs arguments"
+	  ><p class="caption"
+	    >Arguments</p
+	    ><table
+	    ><tr
+	      ><td class="src"
+		>:: <a href="ArtRay-Primitives.html#t:Scene"
+		  >Scene</a
+		  ></td
+		><td class="doc empty"
+		>&nbsp;</td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; <a href="ArtRay-Primitives.html#t:Primitive"
+		  >Primitive</a
+		  ></td
+		><td class="doc empty"
+		>&nbsp;</td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; <a href="ArtRay-Primitives.html#t:Material"
+		  >Material</a
+		  ></td
+		><td class="doc empty"
+		>&nbsp;</td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; <a href="ArtRay-Primitives.html#t:Ray"
+		  >Ray</a
+		  ></td
+		><td class="doc"
+		><p
+		  >The incoming ray, whose location is the point of intersection
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; Vec3</td
+		><td class="doc"
+		><p
+		  >The surface normal at the illumination point
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; <a href="ArtRay-Primitives.html#t:Light"
+		  >Light</a
+		  ></td
+		><td class="doc empty"
+		>&nbsp;</td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+		  >ColorTriple</a
+		  ></td
+		><td class="doc empty"
+		>&nbsp;</td
+		></tr
+	      ></table
+	    ></div
+	  ><div class="doc"
+	  ><p
+	    >Calculates the illumination of a point on a primitive with a Phong
+ material. 
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:colorAtRay" class="def"
+	    >colorAtRay</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Int -&gt; <a href="ArtRay-Primitives.html#t:Ray"
+	    >Ray</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Find the color of the first object that intersects a ray
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:colorAtRay-39-" class="def"
+	    >colorAtRay'</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Int -&gt; <a href="ArtRay-Primitives.html#t:Ray"
+	    >Ray</a
+	    > -&gt; [<a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >] -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Find the color of the first object that intersects a ray, excluding the
+ provided primitives from the intersection.
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:orderTuples" class="def"
+	    >orderTuples</a
+	    > :: (Double, Vec3, <a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >) -&gt; (Double, Vec3, <a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >) -&gt; Ordering</p
+	  ><div class="doc"
+	  ><p
+	    >Order tuples representing intersections, from first to last intersection
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:geomAtRay" class="def"
+	    >geomAtRay</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Ray"
+	    >Ray</a
+	    > -&gt; [<a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >] -&gt; Maybe (Vec3, <a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >)</p
+	  ><div class="doc"
+	  ><p
+	    >Find the first primitive at a ray
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:intersectWithScene" class="def"
+	    >intersectWithScene</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Ray"
+	    >Ray</a
+	    > -&gt; [<a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >] -&gt; [(Double, Vec3, <a href="ArtRay-Primitives.html#t:Primitive"
+	    >Primitive</a
+	    >)]</p
+	  ><div class="doc"
+	  ><p
+	    >Find all points of intersections of a ray with the scene
+</p
+	    ></div
+	  ></div
+	></div
+      ></div
+    ><div id="footer"
+    ><p
+      >Produced by <a href="http://www.haskell.org/haddock/"
+	>Haddock</a
+	> version 2.9.2</p
+      ></div
+    ></body
+  ></html
+>

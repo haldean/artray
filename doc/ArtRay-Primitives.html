@@ -1,20 +1,727 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>ArtRay.Primitives</title><link href="ocean.css" rel="stylesheet" type="text/css" title="Ocean" /><script src="haddock-util.js" type="text/javascript"></script><script type="text/javascript">//<![CDATA[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+><head
+  ><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"
+     /><title
+    >ArtRay.Primitives</title
+    ><link href="ocean.css" rel="stylesheet" type="text/css" title="Ocean"
+     /><script src="haddock-util.js" type="text/javascript"
+    ></script
+    ><script type="text/javascript"
+    >//<![CDATA[
 window.onload = function () {pageLoad();setSynopsis("mini_ArtRay-Primitives.html");};
 //]]>
-</script></head><body><div id="package-header"><ul class="links" id="page-menu"><li><a href="index.html">Contents</a></li><li><a href="doc-index.html">Index</a></li></ul><p class="caption">ArtRay: A Haskell Raytracer</p></div><div id="content"><div id="module-header"><p class="caption">ArtRay.Primitives</p></div><div id="synopsis"><p id="control.syn" class="caption expander" onclick="toggleSection('syn')">Synopsis</p><ul id="section.syn" class="hide" onclick="toggleSection('syn')"><li class="src short"><span class="keyword">data</span>  <a href="#t:Scene">Scene</a>  = <a href="#v:Scene">Scene</a> {<ul class="subs"><li><a href="#v:background">background</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li><a href="#v:options">options</a> :: [<a href="ArtRay-Primitives.html#t:Option">Option</a>]</li><li><a href="#v:geom">geom</a> :: [<a href="ArtRay-Primitives.html#t:Primitive">Primitive</a>]</li><li><a href="#v:lights">lights</a> :: [<a href="ArtRay-Primitives.html#t:Light">Light</a>]</li><li><a href="#v:viewer">viewer</a> :: <a href="ArtRay-Primitives.html#t:Viewer">Viewer</a></li></ul>}</li><li class="src short"><span class="keyword">data</span>  <a href="#t:Option">Option</a> <ul class="subs"><li>= <a href="#v:GlobalAmbient">GlobalAmbient</a> <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a>  </li><li>| <a href="#v:Antialiased">Antialiased</a> { <ul class="subs"><li><a href="#v:msaaSamples">msaaSamples</a> :: Double</li></ul> }</li><li>| <a href="#v:DepthOfField">DepthOfField</a> { <ul class="subs"><li><a href="#v:focalLength">focalLength</a> :: Double</li><li><a href="#v:aperture">aperture</a> :: Double</li><li><a href="#v:dofSamples">dofSamples</a> :: Int</li></ul> }</li></ul></li><li class="src short"><span class="keyword">data</span>  <a href="#t:Primitive">Primitive</a> <ul class="subs"><li>= <a href="#v:Sphere">Sphere</a> { <ul class="subs"><li><a href="#v:center">center</a> :: Vec3</li><li><a href="#v:radius">radius</a> :: Double</li><li><a href="#v:material">material</a> :: <a href="ArtRay-Primitives.html#t:Material">Material</a></li></ul> }</li><li>| <a href="#v:Plane">Plane</a> { <ul class="subs"><li><a href="#v:pnorm">pnorm</a> :: Vec3</li><li><a href="#v:point">point</a> :: Vec3</li><li><a href="#v:material">material</a> :: <a href="ArtRay-Primitives.html#t:Material">Material</a></li></ul> }</li></ul></li><li class="src short"><span class="keyword">data</span>  <a href="#t:Ray">Ray</a>  = <a href="#v:Ray">Ray</a> {<ul class="subs"><li><a href="#v:direction">direction</a> :: Vec3</li><li><a href="#v:position">position</a> :: Vec3</li></ul>}</li><li class="src short"><span class="keyword">type</span> <a href="#t:ColorTriple">ColorTriple</a> = (Double, Double, Double)</li><li class="src short"><span class="keyword">data</span>  <a href="#t:Light">Light</a>  = <a href="#v:PhongLight">PhongLight</a> {<ul class="subs"><li><a href="#v:speclight">speclight</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li><a href="#v:difflight">difflight</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li><a href="#v:loclight">loclight</a> :: Vec3</li></ul>}</li><li class="src short"><span class="keyword">data</span>  <a href="#t:CombinationModel">CombinationModel</a> <ul class="subs"><li>= <a href="#v:WeightSum">WeightSum</a> { <ul class="subs"><li><a href="#v:weight">weight</a> :: Double</li></ul> }</li><li>| <a href="#v:FlatSum">FlatSum</a>  </li><li>| <a href="#v:Multiply">Multiply</a>  </li></ul></li><li class="src short"><span class="keyword">data</span>  <a href="#t:Material">Material</a> <ul class="subs"><li>= <a href="#v:ColorMaterial">ColorMaterial</a> { <ul class="subs"><li><a href="#v:basecolor">basecolor</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li></ul> }</li><li>| <a href="#v:ReflectiveMaterial">ReflectiveMaterial</a> { <ul class="subs"><li><a href="#v:base">base</a> :: <a href="ArtRay-Primitives.html#t:Material">Material</a></li><li><a href="#v:reflectivity">reflectivity</a> :: Double</li></ul> }</li><li>| <a href="#v:PhongMaterial">PhongMaterial</a> { <ul class="subs"><li><a href="#v:specular">specular</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li><a href="#v:diffuse">diffuse</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li><a href="#v:ambient">ambient</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li><a href="#v:phongexp">phongexp</a> :: Int</li></ul> }</li><li>| <a href="#v:TransparentMaterial">TransparentMaterial</a> { <ul class="subs"><li><a href="#v:base">base</a> :: <a href="ArtRay-Primitives.html#t:Material">Material</a></li><li><a href="#v:cmodel">cmodel</a> :: <a href="ArtRay-Primitives.html#t:CombinationModel">CombinationModel</a></li><li><a href="#v:refindex">refindex</a> :: Double</li></ul> }</li><li>| <a href="#v:NullMaterial">NullMaterial</a>  </li></ul></li><li class="src short"><span class="keyword">data</span>  <a href="#t:Viewer">Viewer</a>  = <a href="#v:Viewer">Viewer</a> {<ul class="subs"><li><a href="#v:location">location</a> :: Vec3</li><li><a href="#v:u">u</a> :: Vec3</li><li><a href="#v:v">v</a> :: Vec3</li><li><a href="#v:f">f</a> :: Vec3</li></ul>}</li><li class="src short"><span class="keyword">data</span>  <a href="#t:Point2D">Point2D</a> <ul class="subs"><li>= <a href="#v:Point2D">Point2D</a> Double Double  </li><li>| <a href="#v:RelPoint2D">RelPoint2D</a> Double Double  </li></ul></li><li class="src short"><a href="#v:transmittance">transmittance</a> :: <a href="ArtRay-Primitives.html#t:Material">Material</a> -&gt; Double</li><li class="src short"><a href="#v:glambient">glambient</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li class="src short"><a href="#v:subpixels">subpixels</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Maybe Double</li><li class="src short"><a href="#v:dofinfo">dofinfo</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Maybe <a href="ArtRay-Primitives.html#t:Option">Option</a></li><li class="src short"><a href="#v:dofenabled">dofenabled</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Bool</li><li class="src short"><a href="#v:dofsamples">dofsamples</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Int</li><li class="src short"><a href="#v:dofdepth">dofdepth</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Double</li><li class="src short"><a href="#v:dofaperture">dofaperture</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Double</li><li class="src short"><a href="#v:p2d">p2d</a> :: Int -&gt; Int -&gt; <a href="ArtRay-Primitives.html#t:Point2D">Point2D</a></li><li class="src short"><a href="#v:color">color</a> :: Double -&gt; Double -&gt; Double -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li class="src short"><a href="#v:colorm">colorm</a> :: Double -&gt; Double -&gt; Double -&gt; <a href="ArtRay-Primitives.html#t:Material">Material</a></li><li class="src short"><a href="#v:toRelPoint">toRelPoint</a> :: Size -&gt; <a href="ArtRay-Primitives.html#t:Point2D">Point2D</a> -&gt; <a href="ArtRay-Primitives.html#t:Point2D">Point2D</a></li><li class="src short"><a href="#v:view">view</a> :: Vec3 -&gt; Double -&gt; Vec3 -&gt; Vec3 -&gt; <a href="ArtRay-Primitives.html#t:Viewer">Viewer</a></li><li class="src short"><a href="#v:colorFrom">colorFrom</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; Color</li><li class="src short"><a href="#v:combine">combine</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li class="src short"><a href="#v:scale">scale</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; Double -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li class="src short"><a href="#v:weightedCombine">weightedCombine</a> :: Double -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li class="src short"><a href="#v:sumLight">sumLight</a> :: [<a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a>] -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li class="src short"><a href="#v:sumColor">sumColor</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li class="src short"><a href="#v:sumColor-39-">sumColor'</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li><li class="src short"><a href="#v:meanColor">meanColor</a> :: [<a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a>] -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></li></ul></div><div id="interface"><h1>Documentation</h1><div class="top"><p class="src"><span class="keyword">data</span>  <a name="t:Scene" class="def">Scene</a>  </p><div class="doc"><p>The root object of any rendered scene in ArtRay
-</p></div><div class="subs constructors"><p class="caption">Constructors</p><table><tr><td class="src"><a name="v:Scene" class="def">Scene</a></td><td class="doc empty">&nbsp;</td></tr><tr><td colspan="2"><div class="subs fields"><p class="caption">Fields</p><dl><dt class="src"><a name="v:background" class="def">background</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></dt><dd class="doc"><p>The background color of the scene -- displayed whenever a ray doesn't
+</script
+    ></head
+  ><body
+  ><div id="package-header"
+    ><ul class="links" id="page-menu"
+      ><li
+	><a href="index.html"
+	  >Contents</a
+	  ></li
+	><li
+	><a href="doc-index.html"
+	  >Index</a
+	  ></li
+	></ul
+      ><p class="caption"
+      >ArtRay: A Haskell Ray Tracer</p
+      ></div
+    ><div id="content"
+    ><div id="module-header"
+      ><p class="caption"
+	>ArtRay.Primitives</p
+	></div
+      ><div id="synopsis"
+      ><p id="control.syn" class="caption expander" onclick="toggleSection('syn')"
+	>Synopsis</p
+	><ul id="section.syn" class="hide" onclick="toggleSection('syn')"
+	><li class="src short"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a href="#t:Scene"
+	    >Scene</a
+	    >  = <a href="#v:Scene"
+	    >Scene</a
+	    > {<ul class="subs"
+	    ><li
+	      ><a href="#v:background"
+		>background</a
+		> :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+		>ColorTriple</a
+		></li
+	      ><li
+	      ><a href="#v:options"
+		>options</a
+		> :: [<a href="ArtRay-Primitives.html#t:Option"
+		>Option</a
+		>]</li
+	      ><li
+	      ><a href="#v:geom"
+		>geom</a
+		> :: [<a href="ArtRay-Primitives.html#t:Primitive"
+		>Primitive</a
+		>]</li
+	      ><li
+	      ><a href="#v:lights"
+		>lights</a
+		> :: [<a href="ArtRay-Primitives.html#t:Light"
+		>Light</a
+		>]</li
+	      ><li
+	      ><a href="#v:viewer"
+		>viewer</a
+		> :: <a href="ArtRay-Primitives.html#t:Viewer"
+		>Viewer</a
+		></li
+	      ></ul
+	    >}</li
+	  ><li class="src short"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a href="#t:Option"
+	    >Option</a
+	    > <ul class="subs"
+	    ><li
+	      >= <a href="#v:GlobalAmbient"
+		>GlobalAmbient</a
+		> <a href="ArtRay-Primitives.html#t:ColorTriple"
+		>ColorTriple</a
+		>  </li
+	      ><li
+	      >| <a href="#v:Antialiased"
+		>Antialiased</a
+		> { <ul class="subs"
+		><li
+		  ><a href="#v:msaaSamples"
+		    >msaaSamples</a
+		    > :: Double</li
+		  ></ul
+		> }</li
+	      ><li
+	      >| <a href="#v:DepthOfField"
+		>DepthOfField</a
+		> { <ul class="subs"
+		><li
+		  ><a href="#v:focalLength"
+		    >focalLength</a
+		    > :: Double</li
+		  ><li
+		  ><a href="#v:aperture"
+		    >aperture</a
+		    > :: Double</li
+		  ><li
+		  ><a href="#v:dofSamples"
+		    >dofSamples</a
+		    > :: Int</li
+		  ></ul
+		> }</li
+	      ></ul
+	    ></li
+	  ><li class="src short"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a href="#t:Primitive"
+	    >Primitive</a
+	    > <ul class="subs"
+	    ><li
+	      >= <a href="#v:Sphere"
+		>Sphere</a
+		> { <ul class="subs"
+		><li
+		  ><a href="#v:center"
+		    >center</a
+		    > :: Vec3</li
+		  ><li
+		  ><a href="#v:radius"
+		    >radius</a
+		    > :: Double</li
+		  ><li
+		  ><a href="#v:material"
+		    >material</a
+		    > :: <a href="ArtRay-Primitives.html#t:Material"
+		    >Material</a
+		    ></li
+		  ></ul
+		> }</li
+	      ><li
+	      >| <a href="#v:Plane"
+		>Plane</a
+		> { <ul class="subs"
+		><li
+		  ><a href="#v:pnorm"
+		    >pnorm</a
+		    > :: Vec3</li
+		  ><li
+		  ><a href="#v:point"
+		    >point</a
+		    > :: Vec3</li
+		  ><li
+		  ><a href="#v:material"
+		    >material</a
+		    > :: <a href="ArtRay-Primitives.html#t:Material"
+		    >Material</a
+		    ></li
+		  ></ul
+		> }</li
+	      ></ul
+	    ></li
+	  ><li class="src short"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a href="#t:Ray"
+	    >Ray</a
+	    >  = <a href="#v:Ray"
+	    >Ray</a
+	    > {<ul class="subs"
+	    ><li
+	      ><a href="#v:direction"
+		>direction</a
+		> :: Vec3</li
+	      ><li
+	      ><a href="#v:position"
+		>position</a
+		> :: Vec3</li
+	      ></ul
+	    >}</li
+	  ><li class="src short"
+	  ><span class="keyword"
+	    >type</span
+	    > <a href="#t:ColorTriple"
+	    >ColorTriple</a
+	    > = (Double, Double, Double)</li
+	  ><li class="src short"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a href="#t:Light"
+	    >Light</a
+	    >  = <a href="#v:PhongLight"
+	    >PhongLight</a
+	    > {<ul class="subs"
+	    ><li
+	      ><a href="#v:speclight"
+		>speclight</a
+		> :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+		>ColorTriple</a
+		></li
+	      ><li
+	      ><a href="#v:difflight"
+		>difflight</a
+		> :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+		>ColorTriple</a
+		></li
+	      ><li
+	      ><a href="#v:loclight"
+		>loclight</a
+		> :: Vec3</li
+	      ></ul
+	    >}</li
+	  ><li class="src short"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a href="#t:CombinationModel"
+	    >CombinationModel</a
+	    > <ul class="subs"
+	    ><li
+	      >= <a href="#v:WeightSum"
+		>WeightSum</a
+		> { <ul class="subs"
+		><li
+		  ><a href="#v:weight"
+		    >weight</a
+		    > :: Double</li
+		  ></ul
+		> }</li
+	      ><li
+	      >| <a href="#v:FlatSum"
+		>FlatSum</a
+		>  </li
+	      ><li
+	      >| <a href="#v:Multiply"
+		>Multiply</a
+		>  </li
+	      ></ul
+	    ></li
+	  ><li class="src short"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a href="#t:Material"
+	    >Material</a
+	    > <ul class="subs"
+	    ><li
+	      >= <a href="#v:ColorMaterial"
+		>ColorMaterial</a
+		> { <ul class="subs"
+		><li
+		  ><a href="#v:basecolor"
+		    >basecolor</a
+		    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+		    >ColorTriple</a
+		    ></li
+		  ></ul
+		> }</li
+	      ><li
+	      >| <a href="#v:ReflectiveMaterial"
+		>ReflectiveMaterial</a
+		> { <ul class="subs"
+		><li
+		  ><a href="#v:base"
+		    >base</a
+		    > :: <a href="ArtRay-Primitives.html#t:Material"
+		    >Material</a
+		    ></li
+		  ><li
+		  ><a href="#v:reflectivity"
+		    >reflectivity</a
+		    > :: Double</li
+		  ></ul
+		> }</li
+	      ><li
+	      >| <a href="#v:PhongMaterial"
+		>PhongMaterial</a
+		> { <ul class="subs"
+		><li
+		  ><a href="#v:specular"
+		    >specular</a
+		    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+		    >ColorTriple</a
+		    ></li
+		  ><li
+		  ><a href="#v:diffuse"
+		    >diffuse</a
+		    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+		    >ColorTriple</a
+		    ></li
+		  ><li
+		  ><a href="#v:ambient"
+		    >ambient</a
+		    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+		    >ColorTriple</a
+		    ></li
+		  ><li
+		  ><a href="#v:phongexp"
+		    >phongexp</a
+		    > :: Int</li
+		  ></ul
+		> }</li
+	      ><li
+	      >| <a href="#v:TransparentMaterial"
+		>TransparentMaterial</a
+		> { <ul class="subs"
+		><li
+		  ><a href="#v:base"
+		    >base</a
+		    > :: <a href="ArtRay-Primitives.html#t:Material"
+		    >Material</a
+		    ></li
+		  ><li
+		  ><a href="#v:cmodel"
+		    >cmodel</a
+		    > :: <a href="ArtRay-Primitives.html#t:CombinationModel"
+		    >CombinationModel</a
+		    ></li
+		  ><li
+		  ><a href="#v:refindex"
+		    >refindex</a
+		    > :: Double</li
+		  ></ul
+		> }</li
+	      ><li
+	      >| <a href="#v:NullMaterial"
+		>NullMaterial</a
+		>  </li
+	      ></ul
+	    ></li
+	  ><li class="src short"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a href="#t:Viewer"
+	    >Viewer</a
+	    >  = <a href="#v:Viewer"
+	    >Viewer</a
+	    > {<ul class="subs"
+	    ><li
+	      ><a href="#v:location"
+		>location</a
+		> :: Vec3</li
+	      ><li
+	      ><a href="#v:u"
+		>u</a
+		> :: Vec3</li
+	      ><li
+	      ><a href="#v:v"
+		>v</a
+		> :: Vec3</li
+	      ><li
+	      ><a href="#v:f"
+		>f</a
+		> :: Vec3</li
+	      ></ul
+	    >}</li
+	  ><li class="src short"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a href="#t:Point2D"
+	    >Point2D</a
+	    > <ul class="subs"
+	    ><li
+	      >= <a href="#v:Point2D"
+		>Point2D</a
+		> Double Double  </li
+	      ><li
+	      >| <a href="#v:RelPoint2D"
+		>RelPoint2D</a
+		> Double Double  </li
+	      ></ul
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:transmittance"
+	    >transmittance</a
+	    > :: <a href="ArtRay-Primitives.html#t:Material"
+	    >Material</a
+	    > -&gt; Double</li
+	  ><li class="src short"
+	  ><a href="#v:glambient"
+	    >glambient</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:subpixels"
+	    >subpixels</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Maybe Double</li
+	  ><li class="src short"
+	  ><a href="#v:dofinfo"
+	    >dofinfo</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Maybe <a href="ArtRay-Primitives.html#t:Option"
+	    >Option</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:dofenabled"
+	    >dofenabled</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Bool</li
+	  ><li class="src short"
+	  ><a href="#v:dofsamples"
+	    >dofsamples</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Int</li
+	  ><li class="src short"
+	  ><a href="#v:dofdepth"
+	    >dofdepth</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Double</li
+	  ><li class="src short"
+	  ><a href="#v:dofaperture"
+	    >dofaperture</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Double</li
+	  ><li class="src short"
+	  ><a href="#v:p2d"
+	    >p2d</a
+	    > :: Int -&gt; Int -&gt; <a href="ArtRay-Primitives.html#t:Point2D"
+	    >Point2D</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:color"
+	    >color</a
+	    > :: Double -&gt; Double -&gt; Double -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:colorm"
+	    >colorm</a
+	    > :: Double -&gt; Double -&gt; Double -&gt; <a href="ArtRay-Primitives.html#t:Material"
+	    >Material</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:toRelPoint"
+	    >toRelPoint</a
+	    > :: Size -&gt; <a href="ArtRay-Primitives.html#t:Point2D"
+	    >Point2D</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Point2D"
+	    >Point2D</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:view"
+	    >view</a
+	    > :: Vec3 -&gt; Double -&gt; Vec3 -&gt; Vec3 -&gt; <a href="ArtRay-Primitives.html#t:Viewer"
+	    >Viewer</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:colorFrom"
+	    >colorFrom</a
+	    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; Color</li
+	  ><li class="src short"
+	  ><a href="#v:combine"
+	    >combine</a
+	    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:scale"
+	    >scale</a
+	    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; Double -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:weightedCombine"
+	    >weightedCombine</a
+	    > :: Double -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:sumLight"
+	    >sumLight</a
+	    > :: [<a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    >] -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:sumColor"
+	    >sumColor</a
+	    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:sumColor-39-"
+	    >sumColor'</a
+	    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ><li class="src short"
+	  ><a href="#v:meanColor"
+	    >meanColor</a
+	    > :: [<a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    >] -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></li
+	  ></ul
+	></div
+      ><div id="interface"
+      ><h1
+	>Documentation</h1
+	><div class="top"
+	><p class="src"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a name="t:Scene" class="def"
+	    >Scene</a
+	    >  </p
+	  ><div class="doc"
+	  ><p
+	    >The root object of any rendered scene in ArtRay
+</p
+	    ></div
+	  ><div class="subs constructors"
+	  ><p class="caption"
+	    >Constructors</p
+	    ><table
+	    ><tr
+	      ><td class="src"
+		><a name="v:Scene" class="def"
+		  >Scene</a
+		  ></td
+		><td class="doc empty"
+		>&nbsp;</td
+		></tr
+	      ><tr
+	      ><td colspan="2"
+		><div class="subs fields"
+		  ><p class="caption"
+		    >Fields</p
+		    ><dl
+		    ><dt class="src"
+		      ><a name="v:background" class="def"
+			>background</a
+			> :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+			>ColorTriple</a
+			></dt
+		      ><dd class="doc"
+		      ><p
+			>The background color of the scene -- displayed whenever a ray doesn't
  intersect any geometry.
-</p></dd><dt class="src"><a name="v:options" class="def">options</a> :: [<a href="ArtRay-Primitives.html#t:Option">Option</a>]</dt><dd class="doc"><p>A list of rendering options 
-</p></dd><dt class="src"><a name="v:geom" class="def">geom</a> :: [<a href="ArtRay-Primitives.html#t:Primitive">Primitive</a>]</dt><dd class="doc"><p>The geometry of the scene
-</p></dd><dt class="src"><a name="v:lights" class="def">lights</a> :: [<a href="ArtRay-Primitives.html#t:Light">Light</a>]</dt><dd class="doc"><p>The lights in the scene
-</p></dd><dt class="src"><a name="v:viewer" class="def">viewer</a> :: <a href="ArtRay-Primitives.html#t:Viewer">Viewer</a></dt><dd class="doc"><p>Camera information
-</p></dd></dl><div class="clear"></div></div></td></tr></table></div><div class="subs instances"><p id="control.i:Scene" class="caption collapser" onclick="toggleSection('i:Scene')">Instances</p><div id="section.i:Scene" class="show"><table><tr><td class="src">Read <a href="ArtRay-Primitives.html#t:Scene">Scene</a></td><td class="doc empty">&nbsp;</td></tr><tr><td class="src">Show <a href="ArtRay-Primitives.html#t:Scene">Scene</a></td><td class="doc empty">&nbsp;</td></tr></table></div></div></div><div class="top"><p class="src"><span class="keyword">data</span>  <a name="t:Option" class="def">Option</a>  </p><div class="doc"><p>Rendering-related options for scenes
-</p></div><div class="subs constructors"><p class="caption">Constructors</p><table><tr><td class="src"><a name="v:GlobalAmbient" class="def">GlobalAmbient</a> <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></td><td class="doc"><p>The global ambient light. If provided, this will illuminate all
+</p
+			></dd
+		      ><dt class="src"
+		      ><a name="v:options" class="def"
+			>options</a
+			> :: [<a href="ArtRay-Primitives.html#t:Option"
+			>Option</a
+			>]</dt
+		      ><dd class="doc"
+		      ><p
+			>A list of rendering options 
+</p
+			></dd
+		      ><dt class="src"
+		      ><a name="v:geom" class="def"
+			>geom</a
+			> :: [<a href="ArtRay-Primitives.html#t:Primitive"
+			>Primitive</a
+			>]</dt
+		      ><dd class="doc"
+		      ><p
+			>The geometry of the scene
+</p
+			></dd
+		      ><dt class="src"
+		      ><a name="v:lights" class="def"
+			>lights</a
+			> :: [<a href="ArtRay-Primitives.html#t:Light"
+			>Light</a
+			>]</dt
+		      ><dd class="doc"
+		      ><p
+			>The lights in the scene
+</p
+			></dd
+		      ><dt class="src"
+		      ><a name="v:viewer" class="def"
+			>viewer</a
+			> :: <a href="ArtRay-Primitives.html#t:Viewer"
+			>Viewer</a
+			></dt
+		      ><dd class="doc"
+		      ><p
+			>Camera information
+</p
+			></dd
+		      ></dl
+		    ><div class="clear"
+		    ></div
+		    ></div
+		  ></td
+		></tr
+	      ></table
+	    ></div
+	  ><div class="subs instances"
+	  ><p id="control.i:Scene" class="caption collapser" onclick="toggleSection('i:Scene')"
+	    >Instances</p
+	    ><div id="section.i:Scene" class="show"
+	    ><table
+	      ><tr
+		><td class="src"
+		  >Read <a href="ArtRay-Primitives.html#t:Scene"
+		    >Scene</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		><tr
+		><td class="src"
+		  >Show <a href="ArtRay-Primitives.html#t:Scene"
+		    >Scene</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		></table
+	      ></div
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a name="t:Option" class="def"
+	    >Option</a
+	    >  </p
+	  ><div class="doc"
+	  ><p
+	    >Rendering-related options for scenes
+</p
+	    ></div
+	  ><div class="subs constructors"
+	  ><p class="caption"
+	    >Constructors</p
+	    ><table
+	    ><tr
+	      ><td class="src"
+		><a name="v:GlobalAmbient" class="def"
+		  >GlobalAmbient</a
+		  > <a href="ArtRay-Primitives.html#t:ColorTriple"
+		  >ColorTriple</a
+		  ></td
+		><td class="doc"
+		><p
+		  >The global ambient light. If provided, this will illuminate all
  primitives with nonzero ambient material response at all points.
-</p></td></tr><tr><td class="src"><a name="v:Antialiased" class="def">Antialiased</a></td><td class="doc"><p>Antialiasing options. When the Antialiased option is provided with
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		><a name="v:Antialiased" class="def"
+		  >Antialiased</a
+		  ></td
+		><td class="doc"
+		><p
+		  >Antialiasing options. When the Antialiased option is provided with
  msaaSamples &gt; 1, ArtRay will use MSAA subpixel sampling to antialias the
  image. Note that multiplying msaaSamples by n increases runtime by O(n^2).
-</p></td></tr><tr><td colspan="2"><div class="subs fields"><p class="caption">Fields</p><dl><dt class="src"><a name="v:msaaSamples" class="def">msaaSamples</a> :: Double</dt><dd class="doc empty">&nbsp;</dd></dl><div class="clear"></div></div></td></tr><tr><td class="src"><a name="v:DepthOfField" class="def">DepthOfField</a></td><td class="doc"><p>Depth of field options. If this option is not provided, the camera has
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td colspan="2"
+		><div class="subs fields"
+		  ><p class="caption"
+		    >Fields</p
+		    ><dl
+		    ><dt class="src"
+		      ><a name="v:msaaSamples" class="def"
+			>msaaSamples</a
+			> :: Double</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ></dl
+		    ><div class="clear"
+		    ></div
+		    ></div
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		><a name="v:DepthOfField" class="def"
+		  >DepthOfField</a
+		  ></td
+		><td class="doc"
+		><p
+		  >Depth of field options. If this option is not provided, the camera has
  infinite depth of field. When this option is provided, the camera simulates
  a real camera with focal length and aperture. Aperture is a number, usually
  on the order of 1, which controls how tight the depth of field is -- higher
@@ -23,65 +730,1193 @@ window.onload = function () {pageLoad();setSynopsis("mini_ArtRay-Primitives.html
  parameter is the square root of the number of rays shot out to determine
  the color at each pixel. For simple scenes, this can be as low as 2. The
  run time scales as O(samples^2).
-</p></td></tr><tr><td colspan="2"><div class="subs fields"><p class="caption">Fields</p><dl><dt class="src"><a name="v:focalLength" class="def">focalLength</a> :: Double</dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:aperture" class="def">aperture</a> :: Double</dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:dofSamples" class="def">dofSamples</a> :: Int</dt><dd class="doc empty">&nbsp;</dd></dl><div class="clear"></div></div></td></tr></table></div><div class="subs instances"><p id="control.i:Option" class="caption collapser" onclick="toggleSection('i:Option')">Instances</p><div id="section.i:Option" class="show"><table><tr><td class="src">Read <a href="ArtRay-Primitives.html#t:Option">Option</a></td><td class="doc empty">&nbsp;</td></tr><tr><td class="src">Show <a href="ArtRay-Primitives.html#t:Option">Option</a></td><td class="doc empty">&nbsp;</td></tr></table></div></div></div><div class="top"><p class="src"><span class="keyword">data</span>  <a name="t:Primitive" class="def">Primitive</a>  </p><div class="subs constructors"><p class="caption">Constructors</p><table><tr><td class="src"><a name="v:Sphere" class="def">Sphere</a></td><td class="doc empty">&nbsp;</td></tr><tr><td colspan="2"><div class="subs fields"><p class="caption">Fields</p><dl><dt class="src"><a name="v:center" class="def">center</a> :: Vec3</dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:radius" class="def">radius</a> :: Double</dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:material" class="def">material</a> :: <a href="ArtRay-Primitives.html#t:Material">Material</a></dt><dd class="doc empty">&nbsp;</dd></dl><div class="clear"></div></div></td></tr><tr><td class="src"><a name="v:Plane" class="def">Plane</a></td><td class="doc empty">&nbsp;</td></tr><tr><td colspan="2"><div class="subs fields"><p class="caption">Fields</p><dl><dt class="src"><a name="v:pnorm" class="def">pnorm</a> :: Vec3</dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:point" class="def">point</a> :: Vec3</dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:material" class="def">material</a> :: <a href="ArtRay-Primitives.html#t:Material">Material</a></dt><dd class="doc empty">&nbsp;</dd></dl><div class="clear"></div></div></td></tr></table></div><div class="subs instances"><p id="control.i:Primitive" class="caption collapser" onclick="toggleSection('i:Primitive')">Instances</p><div id="section.i:Primitive" class="show"><table><tr><td class="src">Eq <a href="ArtRay-Primitives.html#t:Primitive">Primitive</a></td><td class="doc empty">&nbsp;</td></tr><tr><td class="src">Read <a href="ArtRay-Primitives.html#t:Primitive">Primitive</a></td><td class="doc empty">&nbsp;</td></tr><tr><td class="src">Show <a href="ArtRay-Primitives.html#t:Primitive">Primitive</a></td><td class="doc empty">&nbsp;</td></tr></table></div></div></div><div class="top"><p class="src"><span class="keyword">data</span>  <a name="t:Ray" class="def">Ray</a>  </p><div class="subs constructors"><p class="caption">Constructors</p><table><tr><td class="src"><a name="v:Ray" class="def">Ray</a></td><td class="doc empty">&nbsp;</td></tr><tr><td colspan="2"><div class="subs fields"><p class="caption">Fields</p><dl><dt class="src"><a name="v:direction" class="def">direction</a> :: Vec3</dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:position" class="def">position</a> :: Vec3</dt><dd class="doc empty">&nbsp;</dd></dl><div class="clear"></div></div></td></tr></table></div><div class="subs instances"><p id="control.i:Ray" class="caption collapser" onclick="toggleSection('i:Ray')">Instances</p><div id="section.i:Ray" class="show"><table><tr><td class="src">Show <a href="ArtRay-Primitives.html#t:Ray">Ray</a></td><td class="doc empty">&nbsp;</td></tr></table></div></div></div><div class="top"><p class="src"><span class="keyword">type</span> <a name="t:ColorTriple" class="def">ColorTriple</a> = (Double, Double, Double)</p></div><div class="top"><p class="src"><span class="keyword">data</span>  <a name="t:Light" class="def">Light</a>  </p><div class="subs constructors"><p class="caption">Constructors</p><table><tr><td class="src"><a name="v:PhongLight" class="def">PhongLight</a></td><td class="doc empty">&nbsp;</td></tr><tr><td colspan="2"><div class="subs fields"><p class="caption">Fields</p><dl><dt class="src"><a name="v:speclight" class="def">speclight</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:difflight" class="def">difflight</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:loclight" class="def">loclight</a> :: Vec3</dt><dd class="doc empty">&nbsp;</dd></dl><div class="clear"></div></div></td></tr></table></div><div class="subs instances"><p id="control.i:Light" class="caption collapser" onclick="toggleSection('i:Light')">Instances</p><div id="section.i:Light" class="show"><table><tr><td class="src">Read <a href="ArtRay-Primitives.html#t:Light">Light</a></td><td class="doc empty">&nbsp;</td></tr><tr><td class="src">Show <a href="ArtRay-Primitives.html#t:Light">Light</a></td><td class="doc empty">&nbsp;</td></tr></table></div></div></div><div class="top"><p class="src"><span class="keyword">data</span>  <a name="t:CombinationModel" class="def">CombinationModel</a>  </p><div class="doc"><p>Combination models determine how materials on an object are combined.
-</p></div><div class="subs constructors"><p class="caption">Constructors</p><table><tr><td class="src"><a name="v:WeightSum" class="def">WeightSum</a></td><td class="doc"><p>Sum the two colors after multiplying the primary by weight and the
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td colspan="2"
+		><div class="subs fields"
+		  ><p class="caption"
+		    >Fields</p
+		    ><dl
+		    ><dt class="src"
+		      ><a name="v:focalLength" class="def"
+			>focalLength</a
+			> :: Double</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:aperture" class="def"
+			>aperture</a
+			> :: Double</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:dofSamples" class="def"
+			>dofSamples</a
+			> :: Int</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ></dl
+		    ><div class="clear"
+		    ></div
+		    ></div
+		  ></td
+		></tr
+	      ></table
+	    ></div
+	  ><div class="subs instances"
+	  ><p id="control.i:Option" class="caption collapser" onclick="toggleSection('i:Option')"
+	    >Instances</p
+	    ><div id="section.i:Option" class="show"
+	    ><table
+	      ><tr
+		><td class="src"
+		  >Read <a href="ArtRay-Primitives.html#t:Option"
+		    >Option</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		><tr
+		><td class="src"
+		  >Show <a href="ArtRay-Primitives.html#t:Option"
+		    >Option</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		></table
+	      ></div
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a name="t:Primitive" class="def"
+	    >Primitive</a
+	    >  </p
+	  ><div class="subs constructors"
+	  ><p class="caption"
+	    >Constructors</p
+	    ><table
+	    ><tr
+	      ><td class="src"
+		><a name="v:Sphere" class="def"
+		  >Sphere</a
+		  ></td
+		><td class="doc empty"
+		>&nbsp;</td
+		></tr
+	      ><tr
+	      ><td colspan="2"
+		><div class="subs fields"
+		  ><p class="caption"
+		    >Fields</p
+		    ><dl
+		    ><dt class="src"
+		      ><a name="v:center" class="def"
+			>center</a
+			> :: Vec3</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:radius" class="def"
+			>radius</a
+			> :: Double</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:material" class="def"
+			>material</a
+			> :: <a href="ArtRay-Primitives.html#t:Material"
+			>Material</a
+			></dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ></dl
+		    ><div class="clear"
+		    ></div
+		    ></div
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		><a name="v:Plane" class="def"
+		  >Plane</a
+		  ></td
+		><td class="doc empty"
+		>&nbsp;</td
+		></tr
+	      ><tr
+	      ><td colspan="2"
+		><div class="subs fields"
+		  ><p class="caption"
+		    >Fields</p
+		    ><dl
+		    ><dt class="src"
+		      ><a name="v:pnorm" class="def"
+			>pnorm</a
+			> :: Vec3</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:point" class="def"
+			>point</a
+			> :: Vec3</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:material" class="def"
+			>material</a
+			> :: <a href="ArtRay-Primitives.html#t:Material"
+			>Material</a
+			></dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ></dl
+		    ><div class="clear"
+		    ></div
+		    ></div
+		  ></td
+		></tr
+	      ></table
+	    ></div
+	  ><div class="subs instances"
+	  ><p id="control.i:Primitive" class="caption collapser" onclick="toggleSection('i:Primitive')"
+	    >Instances</p
+	    ><div id="section.i:Primitive" class="show"
+	    ><table
+	      ><tr
+		><td class="src"
+		  >Eq <a href="ArtRay-Primitives.html#t:Primitive"
+		    >Primitive</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		><tr
+		><td class="src"
+		  >Read <a href="ArtRay-Primitives.html#t:Primitive"
+		    >Primitive</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		><tr
+		><td class="src"
+		  >Show <a href="ArtRay-Primitives.html#t:Primitive"
+		    >Primitive</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		></table
+	      ></div
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a name="t:Ray" class="def"
+	    >Ray</a
+	    >  </p
+	  ><div class="subs constructors"
+	  ><p class="caption"
+	    >Constructors</p
+	    ><table
+	    ><tr
+	      ><td class="src"
+		><a name="v:Ray" class="def"
+		  >Ray</a
+		  ></td
+		><td class="doc empty"
+		>&nbsp;</td
+		></tr
+	      ><tr
+	      ><td colspan="2"
+		><div class="subs fields"
+		  ><p class="caption"
+		    >Fields</p
+		    ><dl
+		    ><dt class="src"
+		      ><a name="v:direction" class="def"
+			>direction</a
+			> :: Vec3</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:position" class="def"
+			>position</a
+			> :: Vec3</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ></dl
+		    ><div class="clear"
+		    ></div
+		    ></div
+		  ></td
+		></tr
+	      ></table
+	    ></div
+	  ><div class="subs instances"
+	  ><p id="control.i:Ray" class="caption collapser" onclick="toggleSection('i:Ray')"
+	    >Instances</p
+	    ><div id="section.i:Ray" class="show"
+	    ><table
+	      ><tr
+		><td class="src"
+		  >Show <a href="ArtRay-Primitives.html#t:Ray"
+		    >Ray</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		></table
+	      ></div
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><span class="keyword"
+	    >type</span
+	    > <a name="t:ColorTriple" class="def"
+	    >ColorTriple</a
+	    > = (Double, Double, Double)</p
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a name="t:Light" class="def"
+	    >Light</a
+	    >  </p
+	  ><div class="subs constructors"
+	  ><p class="caption"
+	    >Constructors</p
+	    ><table
+	    ><tr
+	      ><td class="src"
+		><a name="v:PhongLight" class="def"
+		  >PhongLight</a
+		  ></td
+		><td class="doc empty"
+		>&nbsp;</td
+		></tr
+	      ><tr
+	      ><td colspan="2"
+		><div class="subs fields"
+		  ><p class="caption"
+		    >Fields</p
+		    ><dl
+		    ><dt class="src"
+		      ><a name="v:speclight" class="def"
+			>speclight</a
+			> :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+			>ColorTriple</a
+			></dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:difflight" class="def"
+			>difflight</a
+			> :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+			>ColorTriple</a
+			></dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:loclight" class="def"
+			>loclight</a
+			> :: Vec3</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ></dl
+		    ><div class="clear"
+		    ></div
+		    ></div
+		  ></td
+		></tr
+	      ></table
+	    ></div
+	  ><div class="subs instances"
+	  ><p id="control.i:Light" class="caption collapser" onclick="toggleSection('i:Light')"
+	    >Instances</p
+	    ><div id="section.i:Light" class="show"
+	    ><table
+	      ><tr
+		><td class="src"
+		  >Read <a href="ArtRay-Primitives.html#t:Light"
+		    >Light</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		><tr
+		><td class="src"
+		  >Show <a href="ArtRay-Primitives.html#t:Light"
+		    >Light</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		></table
+	      ></div
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a name="t:CombinationModel" class="def"
+	    >CombinationModel</a
+	    >  </p
+	  ><div class="doc"
+	  ><p
+	    >Combination models determine how materials on an object are combined.
+</p
+	    ></div
+	  ><div class="subs constructors"
+	  ><p class="caption"
+	    >Constructors</p
+	    ><table
+	    ><tr
+	      ><td class="src"
+		><a name="v:WeightSum" class="def"
+		  >WeightSum</a
+		  ></td
+		><td class="doc"
+		><p
+		  >Sum the two colors after multiplying the primary by weight and the
  secondary by (1-weight). The weighting term should be in [0,1].
-</p></td></tr><tr><td colspan="2"><div class="subs fields"><p class="caption">Fields</p><dl><dt class="src"><a name="v:weight" class="def">weight</a> :: Double</dt><dd class="doc empty">&nbsp;</dd></dl><div class="clear"></div></div></td></tr><tr><td class="src"><a name="v:FlatSum" class="def">FlatSum</a></td><td class="doc"><p>Sum the colors, truncating if any component goes over the maximum.
-</p></td></tr><tr><td class="src"><a name="v:Multiply" class="def">Multiply</a></td><td class="doc"><p>Take the product of the two colors. This creates weird effects which you
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td colspan="2"
+		><div class="subs fields"
+		  ><p class="caption"
+		    >Fields</p
+		    ><dl
+		    ><dt class="src"
+		      ><a name="v:weight" class="def"
+			>weight</a
+			> :: Double</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ></dl
+		    ><div class="clear"
+		    ></div
+		    ></div
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		><a name="v:FlatSum" class="def"
+		  >FlatSum</a
+		  ></td
+		><td class="doc"
+		><p
+		  >Sum the colors, truncating if any component goes over the maximum.
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		><a name="v:Multiply" class="def"
+		  >Multiply</a
+		  ></td
+		><td class="doc"
+		><p
+		  >Take the product of the two colors. This creates weird effects which you
  almost certainly do not want, but it's interesting to look at.
-</p></td></tr></table></div><div class="subs instances"><p id="control.i:CombinationModel" class="caption collapser" onclick="toggleSection('i:CombinationModel')">Instances</p><div id="section.i:CombinationModel" class="show"><table><tr><td class="src">Eq <a href="ArtRay-Primitives.html#t:CombinationModel">CombinationModel</a></td><td class="doc empty">&nbsp;</td></tr><tr><td class="src">Read <a href="ArtRay-Primitives.html#t:CombinationModel">CombinationModel</a></td><td class="doc empty">&nbsp;</td></tr><tr><td class="src">Show <a href="ArtRay-Primitives.html#t:CombinationModel">CombinationModel</a></td><td class="doc empty">&nbsp;</td></tr></table></div></div></div><div class="top"><p class="src"><span class="keyword">data</span>  <a name="t:Material" class="def">Material</a>  </p><div class="subs constructors"><p class="caption">Constructors</p><table><tr><td class="src"><a name="v:ColorMaterial" class="def">ColorMaterial</a></td><td class="doc"><p>A material where every point on the material has the same color.
-</p></td></tr><tr><td colspan="2"><div class="subs fields"><p class="caption">Fields</p><dl><dt class="src"><a name="v:basecolor" class="def">basecolor</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></dt><dd class="doc empty">&nbsp;</dd></dl><div class="clear"></div></div></td></tr><tr><td class="src"><a name="v:ReflectiveMaterial" class="def">ReflectiveMaterial</a></td><td class="doc"><p>A material which reflects rays. Optionally, the material can have a base
+</p
+		  ></td
+		></tr
+	      ></table
+	    ></div
+	  ><div class="subs instances"
+	  ><p id="control.i:CombinationModel" class="caption collapser" onclick="toggleSection('i:CombinationModel')"
+	    >Instances</p
+	    ><div id="section.i:CombinationModel" class="show"
+	    ><table
+	      ><tr
+		><td class="src"
+		  >Eq <a href="ArtRay-Primitives.html#t:CombinationModel"
+		    >CombinationModel</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		><tr
+		><td class="src"
+		  >Read <a href="ArtRay-Primitives.html#t:CombinationModel"
+		    >CombinationModel</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		><tr
+		><td class="src"
+		  >Show <a href="ArtRay-Primitives.html#t:CombinationModel"
+		    >CombinationModel</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		></table
+	      ></div
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a name="t:Material" class="def"
+	    >Material</a
+	    >  </p
+	  ><div class="subs constructors"
+	  ><p class="caption"
+	    >Constructors</p
+	    ><table
+	    ><tr
+	      ><td class="src"
+		><a name="v:ColorMaterial" class="def"
+		  >ColorMaterial</a
+		  ></td
+		><td class="doc"
+		><p
+		  >A material where every point on the material has the same color.
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td colspan="2"
+		><div class="subs fields"
+		  ><p class="caption"
+		    >Fields</p
+		    ><dl
+		    ><dt class="src"
+		      ><a name="v:basecolor" class="def"
+			>basecolor</a
+			> :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+			>ColorTriple</a
+			></dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ></dl
+		    ><div class="clear"
+		    ></div
+		    ></div
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		><a name="v:ReflectiveMaterial" class="def"
+		  >ReflectiveMaterial</a
+		  ></td
+		><td class="doc"
+		><p
+		  >A material which reflects rays. Optionally, the material can have a base
  material, whose color is blended with the reflections using the
  reflectivity parameter. 
  TODO: Use a combination model here.
-</p></td></tr><tr><td colspan="2"><div class="subs fields"><p class="caption">Fields</p><dl><dt class="src"><a name="v:base" class="def">base</a> :: <a href="ArtRay-Primitives.html#t:Material">Material</a></dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:reflectivity" class="def">reflectivity</a> :: Double</dt><dd class="doc empty">&nbsp;</dd></dl><div class="clear"></div></div></td></tr><tr><td class="src"><a name="v:PhongMaterial" class="def">PhongMaterial</a></td><td class="doc"><p>A Phong-reflectance based material.
-</p></td></tr><tr><td colspan="2"><div class="subs fields"><p class="caption">Fields</p><dl><dt class="src"><a name="v:specular" class="def">specular</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:diffuse" class="def">diffuse</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:ambient" class="def">ambient</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:phongexp" class="def">phongexp</a> :: Int</dt><dd class="doc empty">&nbsp;</dd></dl><div class="clear"></div></div></td></tr><tr><td class="src"><a name="v:TransparentMaterial" class="def">TransparentMaterial</a></td><td class="doc"><p>A transparent material with a refractive index. This can be blended with
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td colspan="2"
+		><div class="subs fields"
+		  ><p class="caption"
+		    >Fields</p
+		    ><dl
+		    ><dt class="src"
+		      ><a name="v:base" class="def"
+			>base</a
+			> :: <a href="ArtRay-Primitives.html#t:Material"
+			>Material</a
+			></dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:reflectivity" class="def"
+			>reflectivity</a
+			> :: Double</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ></dl
+		    ><div class="clear"
+		    ></div
+		    ></div
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		><a name="v:PhongMaterial" class="def"
+		  >PhongMaterial</a
+		  ></td
+		><td class="doc"
+		><p
+		  >A Phong-reflectance based material.
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td colspan="2"
+		><div class="subs fields"
+		  ><p class="caption"
+		    >Fields</p
+		    ><dl
+		    ><dt class="src"
+		      ><a name="v:specular" class="def"
+			>specular</a
+			> :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+			>ColorTriple</a
+			></dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:diffuse" class="def"
+			>diffuse</a
+			> :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+			>ColorTriple</a
+			></dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:ambient" class="def"
+			>ambient</a
+			> :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+			>ColorTriple</a
+			></dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:phongexp" class="def"
+			>phongexp</a
+			> :: Int</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ></dl
+		    ><div class="clear"
+		    ></div
+		    ></div
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		><a name="v:TransparentMaterial" class="def"
+		  >TransparentMaterial</a
+		  ></td
+		><td class="doc"
+		><p
+		  >A transparent material with a refractive index. This can be blended with
  a base material using the provided combination model.
-</p></td></tr><tr><td colspan="2"><div class="subs fields"><p class="caption">Fields</p><dl><dt class="src"><a name="v:base" class="def">base</a> :: <a href="ArtRay-Primitives.html#t:Material">Material</a></dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:cmodel" class="def">cmodel</a> :: <a href="ArtRay-Primitives.html#t:CombinationModel">CombinationModel</a></dt><dd class="doc empty">&nbsp;</dd><dt class="src"><a name="v:refindex" class="def">refindex</a> :: Double</dt><dd class="doc empty">&nbsp;</dd></dl><div class="clear"></div></div></td></tr><tr><td class="src"><a name="v:NullMaterial" class="def">NullMaterial</a></td><td class="doc"><p>A material that doesn't exist. This can be convenient for a placeholder
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td colspan="2"
+		><div class="subs fields"
+		  ><p class="caption"
+		    >Fields</p
+		    ><dl
+		    ><dt class="src"
+		      ><a name="v:base" class="def"
+			>base</a
+			> :: <a href="ArtRay-Primitives.html#t:Material"
+			>Material</a
+			></dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:cmodel" class="def"
+			>cmodel</a
+			> :: <a href="ArtRay-Primitives.html#t:CombinationModel"
+			>CombinationModel</a
+			></dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ><dt class="src"
+		      ><a name="v:refindex" class="def"
+			>refindex</a
+			> :: Double</dt
+		      ><dd class="doc empty"
+		      >&nbsp;</dd
+		      ></dl
+		    ><div class="clear"
+		    ></div
+		    ></div
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		><a name="v:NullMaterial" class="def"
+		  >NullMaterial</a
+		  ></td
+		><td class="doc"
+		><p
+		  >A material that doesn't exist. This can be convenient for a placeholder
  when you don't want to provide an actual material (like as the base
  material of a TransparentMaterial that is fully transparent).
-</p></td></tr></table></div><div class="subs instances"><p id="control.i:Material" class="caption collapser" onclick="toggleSection('i:Material')">Instances</p><div id="section.i:Material" class="show"><table><tr><td class="src">Eq <a href="ArtRay-Primitives.html#t:Material">Material</a></td><td class="doc empty">&nbsp;</td></tr><tr><td class="src">Read <a href="ArtRay-Primitives.html#t:Material">Material</a></td><td class="doc empty">&nbsp;</td></tr><tr><td class="src">Show <a href="ArtRay-Primitives.html#t:Material">Material</a></td><td class="doc empty">&nbsp;</td></tr></table></div></div></div><div class="top"><p class="src"><span class="keyword">data</span>  <a name="t:Viewer" class="def">Viewer</a>  </p><div class="subs constructors"><p class="caption">Constructors</p><table><tr><td class="src"><a name="v:Viewer" class="def">Viewer</a></td><td class="doc empty">&nbsp;</td></tr><tr><td colspan="2"><div class="subs fields"><p class="caption">Fields</p><dl><dt class="src"><a name="v:location" class="def">location</a> :: Vec3</dt><dd class="doc"><p>The location of the viewer
-</p></dd><dt class="src"><a name="v:u" class="def">u</a> :: Vec3</dt><dd class="doc"><p>A vector pointing horizontally along the image plane
-</p></dd><dt class="src"><a name="v:v" class="def">v</a> :: Vec3</dt><dd class="doc"><p>A vector pointing vertically along the image plane
-</p></dd><dt class="src"><a name="v:f" class="def">f</a> :: Vec3</dt><dd class="doc"><p>A vector pointing from the viewer to the center of the image plane
-</p></dd></dl><div class="clear"></div></div></td></tr></table></div><div class="subs instances"><p id="control.i:Viewer" class="caption collapser" onclick="toggleSection('i:Viewer')">Instances</p><div id="section.i:Viewer" class="show"><table><tr><td class="src">Read <a href="ArtRay-Primitives.html#t:Viewer">Viewer</a></td><td class="doc empty">&nbsp;</td></tr><tr><td class="src">Show <a href="ArtRay-Primitives.html#t:Viewer">Viewer</a></td><td class="doc empty">&nbsp;</td></tr></table></div></div></div><div class="top"><p class="src"><span class="keyword">data</span>  <a name="t:Point2D" class="def">Point2D</a>  </p><div class="subs constructors"><p class="caption">Constructors</p><table><tr><td class="src"><a name="v:Point2D" class="def">Point2D</a> Double Double</td><td class="doc"><p>Describes a point in the image using pixel coordinates, allowing for
+</p
+		  ></td
+		></tr
+	      ></table
+	    ></div
+	  ><div class="subs instances"
+	  ><p id="control.i:Material" class="caption collapser" onclick="toggleSection('i:Material')"
+	    >Instances</p
+	    ><div id="section.i:Material" class="show"
+	    ><table
+	      ><tr
+		><td class="src"
+		  >Eq <a href="ArtRay-Primitives.html#t:Material"
+		    >Material</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		><tr
+		><td class="src"
+		  >Read <a href="ArtRay-Primitives.html#t:Material"
+		    >Material</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		><tr
+		><td class="src"
+		  >Show <a href="ArtRay-Primitives.html#t:Material"
+		    >Material</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		></table
+	      ></div
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a name="t:Viewer" class="def"
+	    >Viewer</a
+	    >  </p
+	  ><div class="subs constructors"
+	  ><p class="caption"
+	    >Constructors</p
+	    ><table
+	    ><tr
+	      ><td class="src"
+		><a name="v:Viewer" class="def"
+		  >Viewer</a
+		  ></td
+		><td class="doc empty"
+		>&nbsp;</td
+		></tr
+	      ><tr
+	      ><td colspan="2"
+		><div class="subs fields"
+		  ><p class="caption"
+		    >Fields</p
+		    ><dl
+		    ><dt class="src"
+		      ><a name="v:location" class="def"
+			>location</a
+			> :: Vec3</dt
+		      ><dd class="doc"
+		      ><p
+			>The location of the viewer
+</p
+			></dd
+		      ><dt class="src"
+		      ><a name="v:u" class="def"
+			>u</a
+			> :: Vec3</dt
+		      ><dd class="doc"
+		      ><p
+			>A vector pointing horizontally along the image plane
+</p
+			></dd
+		      ><dt class="src"
+		      ><a name="v:v" class="def"
+			>v</a
+			> :: Vec3</dt
+		      ><dd class="doc"
+		      ><p
+			>A vector pointing vertically along the image plane
+</p
+			></dd
+		      ><dt class="src"
+		      ><a name="v:f" class="def"
+			>f</a
+			> :: Vec3</dt
+		      ><dd class="doc"
+		      ><p
+			>A vector pointing from the viewer to the center of the image plane
+</p
+			></dd
+		      ></dl
+		    ><div class="clear"
+		    ></div
+		    ></div
+		  ></td
+		></tr
+	      ></table
+	    ></div
+	  ><div class="subs instances"
+	  ><p id="control.i:Viewer" class="caption collapser" onclick="toggleSection('i:Viewer')"
+	    >Instances</p
+	    ><div id="section.i:Viewer" class="show"
+	    ><table
+	      ><tr
+		><td class="src"
+		  >Read <a href="ArtRay-Primitives.html#t:Viewer"
+		    >Viewer</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		><tr
+		><td class="src"
+		  >Show <a href="ArtRay-Primitives.html#t:Viewer"
+		    >Viewer</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		></table
+	      ></div
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><span class="keyword"
+	    >data</span
+	    >  <a name="t:Point2D" class="def"
+	    >Point2D</a
+	    >  </p
+	  ><div class="subs constructors"
+	  ><p class="caption"
+	    >Constructors</p
+	    ><table
+	    ><tr
+	      ><td class="src"
+		><a name="v:Point2D" class="def"
+		  >Point2D</a
+		  > Double Double</td
+		><td class="doc"
+		><p
+		  >Describes a point in the image using pixel coordinates, allowing for
  fractional pixels for subpixel sampling.
-</p></td></tr><tr><td class="src"><a name="v:RelPoint2D" class="def">RelPoint2D</a> Double Double</td><td class="doc"><p>Describes a point in the image using offsets from the center, where each
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		><a name="v:RelPoint2D" class="def"
+		  >RelPoint2D</a
+		  > Double Double</td
+		><td class="doc"
+		><p
+		  >Describes a point in the image using offsets from the center, where each
  field goes from zero to one.
-</p></td></tr></table></div><div class="subs instances"><p id="control.i:Point2D" class="caption collapser" onclick="toggleSection('i:Point2D')">Instances</p><div id="section.i:Point2D" class="show"><table><tr><td class="src">Show <a href="ArtRay-Primitives.html#t:Point2D">Point2D</a></td><td class="doc empty">&nbsp;</td></tr></table></div></div></div><div class="top"><p class="src"><a name="v:transmittance" class="def">transmittance</a> :: <a href="ArtRay-Primitives.html#t:Material">Material</a> -&gt; Double</p><div class="doc"><p>Returns the transmittance (1 minus the opacity) of any material.
-</p></div></div><div class="top"><p class="src"><a name="v:glambient" class="def">glambient</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></p><div class="doc"><p>Returns the global ambient of the scene
-</p></div></div><div class="top"><p class="src"><a name="v:subpixels" class="def">subpixels</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Maybe Double</p><div class="doc"><p>Returns the number of subpixels used for MSAA, or Nothing if no
+</p
+		  ></td
+		></tr
+	      ></table
+	    ></div
+	  ><div class="subs instances"
+	  ><p id="control.i:Point2D" class="caption collapser" onclick="toggleSection('i:Point2D')"
+	    >Instances</p
+	    ><div id="section.i:Point2D" class="show"
+	    ><table
+	      ><tr
+		><td class="src"
+		  >Show <a href="ArtRay-Primitives.html#t:Point2D"
+		    >Point2D</a
+		    ></td
+		  ><td class="doc empty"
+		  >&nbsp;</td
+		  ></tr
+		></table
+	      ></div
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:transmittance" class="def"
+	    >transmittance</a
+	    > :: <a href="ArtRay-Primitives.html#t:Material"
+	    >Material</a
+	    > -&gt; Double</p
+	  ><div class="doc"
+	  ><p
+	    >Returns the transmittance (1 minus the opacity) of any material.
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:glambient" class="def"
+	    >glambient</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Returns the global ambient of the scene
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:subpixels" class="def"
+	    >subpixels</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Maybe Double</p
+	  ><div class="doc"
+	  ><p
+	    >Returns the number of subpixels used for MSAA, or Nothing if no
  antialiasing is to be performed.
-</p></div></div><div class="top"><p class="src"><a name="v:dofinfo" class="def">dofinfo</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Maybe <a href="ArtRay-Primitives.html#t:Option">Option</a></p><div class="doc"><p>Returns the DepthOfField option, or nothing if no depth of field is to be
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:dofinfo" class="def"
+	    >dofinfo</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Maybe <a href="ArtRay-Primitives.html#t:Option"
+	    >Option</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Returns the DepthOfField option, or nothing if no depth of field is to be
  used.
-</p></div></div><div class="top"><p class="src"><a name="v:dofenabled" class="def">dofenabled</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Bool</p><div class="doc"><p>Returns True if depth of field is to be simulated, and false otherwise.
-</p></div></div><div class="top"><p class="src"><a name="v:dofsamples" class="def">dofsamples</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Int</p><div class="doc"><p>Returns the number of samples to use for calculating depth of field. This
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:dofenabled" class="def"
+	    >dofenabled</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Bool</p
+	  ><div class="doc"
+	  ><p
+	    >Returns True if depth of field is to be simulated, and false otherwise.
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:dofsamples" class="def"
+	    >dofsamples</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Int</p
+	  ><div class="doc"
+	  ><p
+	    >Returns the number of samples to use for calculating depth of field. This
  will throw an exception if depth of field is not enabled for the provided 
  scene.
-</p></div></div><div class="top"><p class="src"><a name="v:dofdepth" class="def">dofdepth</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Double</p><div class="doc"><p>Returns the focal length of the camera. This will throw an exception if 
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:dofdepth" class="def"
+	    >dofdepth</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Double</p
+	  ><div class="doc"
+	  ><p
+	    >Returns the focal length of the camera. This will throw an exception if 
  depth of field is not enabled for the provided scene.
-</p></div></div><div class="top"><p class="src"><a name="v:dofaperture" class="def">dofaperture</a> :: <a href="ArtRay-Primitives.html#t:Scene">Scene</a> -&gt; Double</p><div class="doc"><p>Returns the aperture size of the camera. This will throw an exception if 
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:dofaperture" class="def"
+	    >dofaperture</a
+	    > :: <a href="ArtRay-Primitives.html#t:Scene"
+	    >Scene</a
+	    > -&gt; Double</p
+	  ><div class="doc"
+	  ><p
+	    >Returns the aperture size of the camera. This will throw an exception if 
  depth of field is not enabled for the provided scene.
-</p></div></div><div class="top"><p class="src"><a name="v:p2d" class="def">p2d</a> :: Int -&gt; Int -&gt; <a href="ArtRay-Primitives.html#t:Point2D">Point2D</a></p><div class="doc"><p>Convenience method for turning a pair of integers into a Point2D.
-</p></div></div><div class="top"><p class="src"><a name="v:color" class="def">color</a> :: Double -&gt; Double -&gt; Double -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></p><div class="doc"><p>Convenience method for creating colors
-</p></div></div><div class="top"><p class="src"><a name="v:colorm" class="def">colorm</a> :: Double -&gt; Double -&gt; Double -&gt; <a href="ArtRay-Primitives.html#t:Material">Material</a></p><div class="doc"><p>Convenience method for creating ColorMaterials.
-</p></div></div><div class="top"><p class="src"><a name="v:toRelPoint" class="def">toRelPoint</a> :: Size -&gt; <a href="ArtRay-Primitives.html#t:Point2D">Point2D</a> -&gt; <a href="ArtRay-Primitives.html#t:Point2D">Point2D</a></p><div class="doc"><p>Converts pixel locations into relative locations in [-1,1], where -1
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:p2d" class="def"
+	    >p2d</a
+	    > :: Int -&gt; Int -&gt; <a href="ArtRay-Primitives.html#t:Point2D"
+	    >Point2D</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Convenience method for turning a pair of integers into a Point2D.
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:color" class="def"
+	    >color</a
+	    > :: Double -&gt; Double -&gt; Double -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Convenience method for creating colors
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:colorm" class="def"
+	    >colorm</a
+	    > :: Double -&gt; Double -&gt; Double -&gt; <a href="ArtRay-Primitives.html#t:Material"
+	    >Material</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Convenience method for creating ColorMaterials.
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:toRelPoint" class="def"
+	    >toRelPoint</a
+	    > :: Size -&gt; <a href="ArtRay-Primitives.html#t:Point2D"
+	    >Point2D</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:Point2D"
+	    >Point2D</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Converts pixel locations into relative locations in [-1,1], where -1
  corresponds to the left or bottom edge, and 1 corresponds to the right or top
  edge.
-</p></div></div><div class="top"><p class="src"><a name="v:view" class="def">view</a></p><div class="subs arguments"><p class="caption">Arguments</p><table><tr><td class="src">:: Vec3</td><td class="doc"><p>The location of the viewer
-</p></td></tr><tr><td class="src">-&gt; Double</td><td class="doc"><p>The field of view of the viewer, in radians
-</p></td></tr><tr><td class="src">-&gt; Vec3</td><td class="doc"><p>The vector from viewer to center of image plane
-</p></td></tr><tr><td class="src">-&gt; Vec3</td><td class="doc"><p>Unit vector pointing vertically along the image plane
-</p></td></tr><tr><td class="src">-&gt; <a href="ArtRay-Primitives.html#t:Viewer">Viewer</a></td><td class="doc empty">&nbsp;</td></tr></table></div><div class="doc"><p>Creates a viewer
-</p></div></div><div class="top"><p class="src"><a name="v:colorFrom" class="def">colorFrom</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; Color</p><div class="doc"><p>Convert an ArtRay color to a GD color.
-</p></div></div><div class="top"><p class="src"><a name="v:combine" class="def">combine</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></p><div class="doc"><p>Take the product of two colors
-</p></div></div><div class="top"><p class="src"><a name="v:scale" class="def">scale</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; Double -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></p><div class="doc"><p>Multiply a color by a scalar
-</p></div></div><div class="top"><p class="src"><a name="v:weightedCombine" class="def">weightedCombine</a> :: Double -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></p><div class="doc"><p>Weight two colors with the provided weighting factor. The first color is
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:view" class="def"
+	    >view</a
+	    ></p
+	  ><div class="subs arguments"
+	  ><p class="caption"
+	    >Arguments</p
+	    ><table
+	    ><tr
+	      ><td class="src"
+		>:: Vec3</td
+		><td class="doc"
+		><p
+		  >The location of the viewer
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; Double</td
+		><td class="doc"
+		><p
+		  >The field of view of the viewer, in radians
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; Vec3</td
+		><td class="doc"
+		><p
+		  >The vector from viewer to center of image plane
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; Vec3</td
+		><td class="doc"
+		><p
+		  >Unit vector pointing vertically along the image plane
+</p
+		  ></td
+		></tr
+	      ><tr
+	      ><td class="src"
+		>-&gt; <a href="ArtRay-Primitives.html#t:Viewer"
+		  >Viewer</a
+		  ></td
+		><td class="doc empty"
+		>&nbsp;</td
+		></tr
+	      ></table
+	    ></div
+	  ><div class="doc"
+	  ><p
+	    >Creates a viewer
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:colorFrom" class="def"
+	    >colorFrom</a
+	    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; Color</p
+	  ><div class="doc"
+	  ><p
+	    >Convert an ArtRay color to a GD color.
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:combine" class="def"
+	    >combine</a
+	    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Take the product of two colors
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:scale" class="def"
+	    >scale</a
+	    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; Double -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Multiply a color by a scalar
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:weightedCombine" class="def"
+	    >weightedCombine</a
+	    > :: Double -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Weight two colors with the provided weighting factor. The first color is
  multiplied by the weight, the second by one minus the weight.
-</p></div></div><div class="top"><p class="src"><a name="v:sumLight" class="def">sumLight</a> :: [<a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a>] -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></p><div class="doc"><p>Ensure that each component of the color is in [0, 1].
-</p><p>Take the sum of a list of colors
-</p></div></div><div class="top"><p class="src"><a name="v:sumColor" class="def">sumColor</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></p><div class="doc"><p>Take the sum of a pair of colors, truncating if it results in a value
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:sumLight" class="def"
+	    >sumLight</a
+	    > :: [<a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    >] -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Ensure that each component of the color is in [0, 1].
+</p
+	    ><p
+	    >Take the sum of a list of colors
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:sumColor" class="def"
+	    >sumColor</a
+	    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Take the sum of a pair of colors, truncating if it results in a value
  outside [0, 1].
-</p></div></div><div class="top"><p class="src"><a name="v:sumColor-39-" class="def">sumColor'</a> :: <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a> -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></p><div class="doc"><p>Take the sum of a pair of colors without normalizing.
-</p></div></div><div class="top"><p class="src"><a name="v:meanColor" class="def">meanColor</a> :: [<a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a>] -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple">ColorTriple</a></p><div class="doc"><p>Find the mean value of a list of colors.
-</p></div></div></div></div><div id="footer"><p>Produced by <a href="http://www.haskell.org/haddock/">Haddock</a> version 2.9.2</p></div></body></html>
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:sumColor-39-" class="def"
+	    >sumColor'</a
+	    > :: <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    > -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Take the sum of a pair of colors without normalizing.
+</p
+	    ></div
+	  ></div
+	><div class="top"
+	><p class="src"
+	  ><a name="v:meanColor" class="def"
+	    >meanColor</a
+	    > :: [<a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    >] -&gt; <a href="ArtRay-Primitives.html#t:ColorTriple"
+	    >ColorTriple</a
+	    ></p
+	  ><div class="doc"
+	  ><p
+	    >Find the mean value of a list of colors.
+</p
+	    ></div
+	  ></div
+	></div
+      ></div
+    ><div id="footer"
+    ><p
+      >Produced by <a href="http://www.haskell.org/haddock/"
+	>Haddock</a
+	> version 2.9.2</p
+      ></div
+    ></body
+  ></html
+>
