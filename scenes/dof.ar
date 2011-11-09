@@ -5,7 +5,7 @@ Scene {
     DepthOfField {
       focalLength = 10,
       aperture = 2,
-      dofSamples = 4
+      dofSamples = 2
     }
   ],
 

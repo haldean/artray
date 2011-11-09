@@ -23,6 +23,7 @@ rayTraceImage scene size (x, y) =
       where inc = (-0.5) + 1 / subpixels
     otherwise -> rayTraceImage' scene size (p2d x y)
 
+-- | Turn a function into a pretty picture
 applyToImage :: (Size -> Point -> ColorTriple) -> Image -> IO()
 applyToImage imFunc im =
   do 
@@ -30,7 +31,8 @@ applyToImage imFunc im =
     sequence_ [setPixel (i,j) (colorFrom $ imFunc size (i,j)) im
                | i <- [0..(fst size)], j <- [0..(snd size)]]
 
-render :: Scene -> Int -> String -> IO()
+-- | Render a square image and save it to the given file.
+render :: Scene -> Int -> FilePath -> IO()
 render scene size outfile =
   do
     im <- newImage (size, size)
