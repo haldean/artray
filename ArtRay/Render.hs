@@ -7,7 +7,6 @@ import Graphics.GD
 import ArtRay.Geometry
 import Debug.Trace
 
-
 -- | Raytrace an image without antialiasing
 rayTraceImage' :: Scene -> Size -> Point2D -> ColorTriple
 rayTraceImage' scene size point@(Point2D x y) =

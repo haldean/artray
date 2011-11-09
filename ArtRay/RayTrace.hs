@@ -11,8 +11,10 @@ import ArtRay.Primitives
 pixelColor :: Size -> Scene -> Viewer -> Point2D -> ColorTriple
 pixelColor size scene viewer (Point2D ix iy) =
   pixelColor size scene viewer (toRelPoint size (Point2D ix iy))
+
 pixelColor size scene viewer (RelPoint2D hu hv) =
-  colorAtRay scene ray 0 where ray = pointToRay viewer (RelPoint2D hu hv)
+  meanColor $ map (colorAtRay scene 0) rays
+  where rays = pointToRay scene viewer (RelPoint2D hu hv)
 
 colorFor :: Scene             
             -- ^ The scene we're operating within
@@ -37,7 +39,7 @@ colorFor scene shape mat direction location depth =
     ReflectiveMaterial basemat reflectivity -> 
       weightedCombine reflectivity reflectColor baseColor
       where ray = Ray (direction `reflectAbout` normal shape location) location
-            reflectColor = colorAtRay' scene ray [shape] (depth + 1)
+            reflectColor = colorAtRay' scene (depth + 1) ray [shape]
             baseColor = colorFor scene shape basemat direction location depth 
  
     PhongMaterial spec diff amb exp ->
@@ -49,7 +51,7 @@ colorFor scene shape mat direction location depth =
     TransparentMaterial base cmodel refindex ->
       com throughcolor basecolor
       where ray  = Ray (refractVector refindex (normal shape location) direction) location
-            throughcolor = colorAtRay' scene ray [shape] (depth + 1)
+            throughcolor = colorAtRay' scene (depth + 1) ray [shape]
             basecolor = colorFor scene shape base direction location depth
             com = case cmodel of
                     WeightSum opacity -> weightedCombine opacity
@@ -78,11 +80,11 @@ phongLight scene shape mat ray surfacenorm light =
       occlusion    = occluded scene shape (position ray) (loclight light)
       in weightedCombine occlusion (sumLight [kd `scale` sd, ks `scale` ss]) (0, 0, 0)
 
-colorAtRay :: Scene -> Ray -> Int -> ColorTriple
-colorAtRay scene ray = colorAtRay' scene ray []
+colorAtRay :: Scene -> Int -> Ray -> ColorTriple
+colorAtRay scene depth ray = colorAtRay' scene depth ray []
 
-colorAtRay' :: Scene -> Ray -> [Primitive] -> Int -> ColorTriple
-colorAtRay' scene ray exclude depth =
+colorAtRay' :: Scene -> Int -> Ray -> [Primitive] -> ColorTriple
+colorAtRay' scene depth ray exclude =
   let geom = geomAtRay scene ray exclude
   in 
     if isNothing geom 

@@ -15,8 +15,17 @@ data Scene =
   } deriving (Show, Read)
 
 data Option
-  = Antialiased Double
-  | GlobalAmbient ColorTriple
+  = GlobalAmbient ColorTriple
+
+  | Antialiased {
+    msaaSamples :: Double
+  }
+
+  | DepthOfField {
+    focalLength :: Double,
+    aperture :: Double,
+    dofSamples :: Int
+  }
   deriving (Show, Read)
 
 data Primitive 
@@ -111,6 +120,28 @@ subpixels scene =
         (options scene) of
     subp:_ -> Just subp
     otherwise -> Nothing
+
+dofinfo :: Scene -> Maybe Option
+dofinfo scene =
+  case mapMaybe
+        (\opt -> case opt of 
+            dof@(DepthOfField _ _ _) -> Just dof
+            otherwise -> Nothing)
+        (options scene) of
+    dofs:_ -> Just dofs
+    otherwise -> Nothing
+
+dofenabled :: Scene -> Bool
+dofenabled = isJust . dofinfo
+
+dofsamples :: Scene -> Int
+dofsamples = dofSamples . fromJust . dofinfo
+
+dofdepth :: Scene -> Double
+dofdepth = focalLength . fromJust . dofinfo
+
+dofaperture :: Scene -> Double
+dofaperture = aperture . fromJust . dofinfo
 
 p2d :: Int -> Int -> Point2D
 p2d x y = Point2D (fromIntegral x) (fromIntegral y)
