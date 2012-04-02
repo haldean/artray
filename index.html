@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Artray by haldean</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Artray</h1>
+        <p>A ray tracer in Haskell</p>
+        <p class="view"><a href="https://github.com/haldean/artray">View the Project on GitHub <small>haldean/artray</small></a></p>
+        <ul>
+          <li><a href="https://github.com/haldean/artray/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/haldean/artray/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/haldean/artray">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>Getting and Running ArtRay</h2>
+
+<p>You can <a href="https://github.com/haldean/artray/zipball/master">download a ZIP file</a> or <a href="https://github.com/haldean/artray">clone the Github repository</a> to
+get the code. A script, <code>build.sh</code>, is provided in the distribution for building
+ArtRay. It will produce an executable <code>ar</code>. The executable takes two arguments:
+the input scene and the output image. Input scenes are in ArtRay format, which
+is detailed below, and output images are always in PNG format. Any scene-related
+options are set in the input file, and cannot be set on the command line.</p>
+
+<h2>ArtRay format</h2>
+
+<p><em>Note, this section will likely be out of date by the time I finish writing it.
+For more up-to-date information, see the documentation distributed with ArtRay.</em></p>
+
+<p>The ArtRay format reads like Haskell code, but is easy to understand even for
+those who are unfamiliar with Haskell syntax. There are a number of <a href="https://github.com/haldean/artray/tree/master/scenes">samples</a>
+distributed with the code in the <code>scenes/</code> directory. I recommend looking at
+these files to understand the syntax of the format, as it's very simple.</p>
+
+<p>The primitives in ArtRay are colors, vectors, lists and scalars; every object in
+a scene is built from these. Colors are expressed as a triple of fractional
+values between 0 and 1, corresponding to the red, green and blue components of
+that color. Colors must be surrounded by parentheses, like so:</p>
+
+<pre><code>background = (1, 0.5, 0)
+</code></pre>
+
+<p>That statement would set the background color to an orange (100% red, 50% green
+and 0% blue).</p>
+
+<p>Vectors are also represented by three values, but the syntax is different.
+Unlike colors, they shouldn't be surrounded by parenthesis, and the numbers are
+separated by spaces instead of commas. They must also be proceeded by the word
+<code>Vec3</code>, like so:</p>
+
+<pre><code>location = Vec3 -10 0 10
+</code></pre>
+
+<p>Lists are surrounded by square brackets, and elements in a list are separated by
+commas. Newlines can also be placed between elements in lists, but are optional.
+An example of a list is shown below:</p>
+
+<pre><code>colors = [
+  (0, 1, 0),
+  (1, 0, 0)
+]
+</code></pre>
+
+<h2>Scenes</h2>
+
+<p>The top-level object in any scene is a <code>Scene</code>, which has five fields,
+<code>background</code>, <code>options</code>, <code>geom</code>, <code>lights</code> and <code>viewer</code>, each of which are
+required. The current parser requires that these fields be in order -- future
+versions of ArtRay will eliminate this requirement.</p>
+
+<h3>Scene Options</h3>
+
+<p>An ArtRay scene has an (optionally empty) list of options in its <code>options</code>
+field. At the moment there are only two options: <code>GlobalAmbient</code> and
+<code>Antialiased</code>. Sample syntax is shown in the snippet below:</p>
+
+<pre><code>options = [
+  GlobalAmbient (0.4, 0.4, 0.4),
+  Antialiased 4
+]
+</code></pre>
+
+<p><code>GlobalAmbient</code> takes the global ambient color as it's one argument (this will
+be explained further in the Lighting section below).</p>
+
+<p>Antialiasing is done using MSAA. The <code>Antialiased</code> option takes a single
+argument, which corresponds to the number of subpixels per dimension that will
+be sampled, so an argument of 4 corresponds to MSAAx4, or 16 subpixels per
+pixel. In general, a higher subpixel count means better antialiasing and longer
+runtime.</p>
+
+<h2>Geometry</h2>
+
+<p>The geometry of a scene is a list of geometric primitives. ArtRay only supports
+two kinds of geometric primitives: spheres and half-planes.  Each kind of
+primitive has a material associated with it.</p>
+
+<p>Spheres are defined by a center (a vector), a radius (a scalar) and a material.
+The syntax for a red sphere with center (10, 0, 0) and a radius of 1 is shown
+below:</p>
+
+<pre><code>Sphere {
+  center = Vec3 10 0 0,
+  radius = 1.0,
+  material = ColorMaterial (1, 0, 0)
+}
+</code></pre>
+
+<p>Planes are defined by a vector on the plane and the normal vector of the plane.
+Note that the "plane" primitive is actually a half-plane: it will only reflect
+light from the side the normal points towards. This means that if you use a more
+complex material for it (i.e., anything that isn't a <code>ColorMaterial</code>) only one
+face will be lit correctly. To create a plane that reflects light from both
+sides, add another plane to the scene with the same position vector and a
+negated normal vector. The syntax for a blue yz-plane where x=8 is as follows:</p>
+
+<pre><code>Plane {
+  pnorm = Vec3 -1 0 0,
+  point = Vec3 8 0 0,
+  material = ColorMaterial (0, 0, 1)
+}
+</code></pre>
+
+<h2>Lights and Materials</h2>
+
+<p>There are two lighting models available in ArtRay. One has no shading and no
+lighting at all -- a primitive that uses this lighting model has one color over
+the entire body, and is flatly shaded. To use this lighting model on a
+primitive, assign a <code>ColorMaterial</code> to that primitive. <code>ColorMaterial</code> takes one
+argument, which is the color of the primitive.</p>
+
+<p>For realistic lighting, ArtRay uses <a href="http://en.wikipedia.org/wiki/Phong_reflection_model">Phong reflectance</a>. This decomposes
+light and materials into three portions: specular, diffuse and ambient. ArtRay
+simplifies this model somewhat -- instead of allowing each light to contribute
+to ambient, there is just one global ambient applied to the scene. This is set
+using the <code>GlobalAmbient</code> option described in the Options section. Each light
+has two parameters: <code>speclight</code>, the specular color of the light, and
+<code>difflight</code>, the diffuse color of the light. Each light also has a location
+stored in the <code>loclight</code> field. <code>PhongMaterial</code>, has four fields: <code>specular</code>,
+<code>diffuse</code>, <code>ambient</code>, and <code>phongexp</code>. <code>specular</code>, <code>diffuse</code> and <code>ambient</code> are
+the corresponding color components of the material. <code>phongexp</code> is the Phong
+exponent of the material -- this effects the size of the specular highlights on
+the object. The higher the exponent, the brighter and smaller the highlights
+will be. The geometry and lights sections from a scene that uses Phong lighting
+is shown below:</p>
+
+<pre><code>geom = [
+  Sphere {
+    center = Vec3 10.0 0.0 0.0,
+    radius = 1.0,
+    material = PhongMaterial {
+      specular = (1.0, 1.0, 1.0),
+      diffuse = (0.0, 0.7, 0.0),
+      ambient = (0.0, 1.0, 0.0),
+      phongexp = 4 
+    } 
+  }
+],
+
+lights = [
+  PhongLight {
+    speclight = (1.0, 1.0, 1.0),
+    difflight = (1.0, 1.0, 1.0),
+    loclight = Vec3 6.0 4.0 0.0 
+  }
+]
+</code></pre>
+
+<h2>Viewer</h2>
+
+<p>The <code>Viewer</code> of the scene defines the "camera" viewing the scene. It is
+parameterized by four vectors: <code>location</code>, <code>u</code>, <code>v</code> and <code>f</code>. <code>location</code> is a
+vector which is the location of the imaginary camera. <code>u</code>, <code>v</code> and <code>f</code> are
+slightly more difficult concepts to describe. In order to determine what in the
+scene the camera can see, ArtRay simulates an actual camera of sorts. This
+camera has a "focal length" <code>f</code>. In reality, <code>f</code> is a vector that points from
+the camera's location to the location of the center of it's "image plane" --
+think of this as the direction that the camera is looking. <code>v</code> is the vector
+that points up, and it's length determines how much of the scene the camera can
+see vertically. Making <code>v</code> longer means that more of the scene can be seen in
+the vertical direction. <code>u</code> is the horizontal equivalent to <code>v</code>, and should be
+orthogonal to <code>v</code>. Again, the longer <code>u</code> is, the more can be seen in the
+horizontal direction.</p>
+
+<p>Note that the wider you make <code>u</code> and <code>v</code>, or the shorter <code>f</code> is, the more
+"barrel warp" you will see in the image. If you want to see more without
+distortion, you will need to move the camera itself further away from the scene.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/haldean">haldean</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
